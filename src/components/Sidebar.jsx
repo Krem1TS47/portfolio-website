@@ -1,13 +1,23 @@
-import { Link } from 'react-router-dom'
-
 const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Writing', path: '/writing' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Home', path: '#home' },
+    { name: 'Resume', path: '#resume' },
+    { name: 'My Stack', path: '#stack' },
+    { name: 'Projects', path: '#projects' },
+    { name: 'About Me', path: '#about' },
+    { name: 'Get in Touch', path: '#contact' },
   ]
+
+  const handleNavClick = (e, path) => {
+    e.preventDefault()
+    onClose()
+    
+    // Smooth scroll to section
+    const element = document.querySelector(path)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
 
   return (
     <>
@@ -21,7 +31,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       
       {/* Sidebar */}
       <nav
-        className={`fixed top-0 left-0 h-full w-80 bg-secondary-bg border-r border-gray-800 z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-80 bg-secondary-bg/95 backdrop-blur-md border-r border-border-color z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -41,13 +51,13 @@ const Sidebar = ({ isOpen, onClose }) => {
           <ul className="flex-1 px-8 space-y-2">
             {navItems.map((item) => (
               <li key={item.path}>
-                <Link
-                  to={item.path}
-                  onClick={onClose}
-                  className="block py-4 text-lg font-light text-text-primary hover:text-accent transition-colors duration-200 border-b border-gray-800 hover:border-accent"
+                <a
+                  href={item.path}
+                  onClick={(e) => handleNavClick(e, item.path)}
+                  className="block py-4 text-lg font-light text-text-primary hover:text-accent transition-colors duration-200 border-b border-border-color hover:border-accent"
                 >
                   {item.name}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

@@ -3,42 +3,207 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-primary-bg text-text-primary font-sans antialiased;
-  }
-  
-  html {
-    scroll-behavior: smooth;
-  }
+    body {
+        @apply bg-primary-bg text-text-primary font-sans antialiased;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Light Mode (Default) */
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #fafafa;
+        --text-primary: #1a1a1a;
+        --text-secondary: #4a4a4a;
+        --accent: #8b5cf6;
+        --border-color: #e0e0e0;
+    }
+
+    /* Dark Mode */
+    html.dark {
+        --bg-primary: #000000;
+        --bg-secondary: #0a0a0a;
+        --text-primary: #f5f5f5;
+        --text-secondary: #a0a0a0;
+        --accent: #a78bfa;
+        --border-color: #2a2a2a;
+    }
+
+    /* Ensure all text elements inherit properly */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    a,
+    div {
+        transition: color 0.3s ease;
+    }
+
+    /* Force theme-aware text colors */
+    .text-text-primary {
+        color: var(--text-primary) !important;
+    }
+
+    .text-text-secondary {
+        color: var(--text-secondary) !important;
+    }
+
+    .text-accent {
+        color: var(--accent) !important;
+    }
+
+    .bg-primary-bg {
+        background-color: var(--bg-primary);
+    }
+
+    .bg-secondary-bg {
+        background-color: var(--bg-secondary);
+    }
+
+    .border-border-color {
+        border-color: var(--border-color);
+    }
 }
 
 @layer components {
-  .page-transition {
-    animation: fadeIn 0.6s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .sidebar-enter {
-    animation: slideIn 0.3s ease-out;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-}
 
+    /* Unified Gradient Background */
+    .gradient-bg {
+        transition: all 0.5s ease;
+    }
+
+    /* Light Mode Gradient - Light purple-pink to white */
+    :root .gradient-bg {
+        background:
+            radial-gradient(ellipse at top left, rgba(245, 235, 255, 0.85) 0%, transparent 50%),
+            radial-gradient(ellipse at top right, rgba(254, 225, 240, 0.7) 0%, transparent 50%),
+            radial-gradient(ellipse at center, rgba(238, 225, 255, 0.5) 0%, transparent 60%),
+            radial-gradient(ellipse at bottom left, rgba(255, 235, 240, 0.6) 0%, transparent 50%),
+            radial-gradient(ellipse at bottom right, rgba(240, 235, 255, 0.65) 0%, transparent 50%),
+            linear-gradient(135deg,
+                #f5ebff 0%,
+                #fee1f0 15%,
+                #ffe8ed 30%,
+                #eee1ff 45%,
+                #fee1f0 60%,
+                #ffe5ea 75%,
+                #f5ebff 90%,
+                #ffffff 100%);
+    }
+
+    /* Dark Mode - Animated Starry Night */
+    html.dark .gradient-bg {
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        overflow: hidden;
+    }
+
+    html.dark .gradient-bg::before,
+    html.dark .gradient-bg::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    /* Small stars layer */
+    html.dark .gradient-bg::before {
+        background-image:
+            radial-gradient(2px 2px at 20px 30px, white, transparent),
+            radial-gradient(2px 2px at 60px 70px, white, transparent),
+            radial-gradient(1px 1px at 50px 50px, white, transparent),
+            radial-gradient(1px 1px at 130px 80px, white, transparent),
+            radial-gradient(2px 2px at 90px 10px, white, transparent),
+            radial-gradient(1px 1px at 160px 120px, white, transparent),
+            radial-gradient(1px 1px at 20px 170px, white, transparent),
+            radial-gradient(2px 2px at 110px 150px, white, transparent),
+            radial-gradient(1px 1px at 175px 180px, white, transparent),
+            radial-gradient(2px 2px at 10px 110px, white, transparent),
+            radial-gradient(1px 1px at 140px 60px, white, transparent),
+            radial-gradient(1px 1px at 200px 20px, white, transparent),
+            radial-gradient(2px 2px at 220px 90px, white, transparent),
+            radial-gradient(1px 1px at 180px 40px, white, transparent),
+            radial-gradient(1px 1px at 70px 130px, white, transparent);
+        background-repeat: repeat;
+        background-size: 250px 250px;
+        animation: stars-move 50s linear infinite;
+        opacity: 0.7;
+    }
+
+    /* Larger stars and twinkling layer */
+    html.dark .gradient-bg::after {
+        background-image:
+            radial-gradient(3px 3px at 40px 60px, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(2px 2px at 80px 20px, rgba(200, 220, 255, 0.8), transparent),
+            radial-gradient(3px 3px at 120px 100px, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(2px 2px at 30px 140px, rgba(220, 200, 255, 0.8), transparent),
+            radial-gradient(3px 3px at 150px 50px, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(2px 2px at 100px 180px, rgba(200, 220, 255, 0.8), transparent),
+            radial-gradient(3px 3px at 190px 130px, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(2px 2px at 60px 90px, rgba(220, 200, 255, 0.8), transparent);
+        background-repeat: repeat;
+        background-size: 300px 300px;
+        animation: stars-move 100s linear infinite, twinkle 4s ease-in-out infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes stars-move {
+        from {
+            transform: translateY(0px);
+        }
+
+        to {
+            transform: translateY(-250px);
+        }
+    }
+
+    @keyframes twinkle {
+
+        0%,
+        100% {
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 0.4;
+        }
+    }
+
+    .page-transition {
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .sidebar-enter {
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(-100%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+}

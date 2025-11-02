@@ -1,40 +1,55 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import MenuButton from './components/MenuButton'
+import ThemeToggle from './components/ThemeToggle'
 import Home from './pages/Home'
-import About from './pages/About'
-import Writing from './pages/Writing'
+import Resume from './pages/Resume'
+import Stack from './pages/Stack'
 import Projects from './pages/Projects'
+import About from './pages/About'
 import Contact from './pages/Contact'
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen)
-  }
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
 
-  const closeSidebar = () => {
-    setIsSidebarOpen(false)
-  }
+    const closeSidebar = () => {
+        setIsSidebarOpen(false)
+    }
 
-  return (
-    <Router>
-      <div className="min-h-screen bg-primary-bg">
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-        <MenuButton onClick={toggleSidebar} isOpen={isSidebarOpen} />
-        
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/writing" element={<Writing />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
-    </Router>
-  )
+    return (
+        <div className="min-h-screen scroll-smooth relative">
+            {/* Unified Gradient Background */}
+            <div className="fixed inset-0 -z-10 gradient-bg"></div>
+
+            <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+            <MenuButton onClick={toggleSidebar} isOpen={isSidebarOpen} />
+            <ThemeToggle />
+
+            {/* All sections on one page */}
+            <div id="home">
+                <Home />
+            </div>
+            <div id="resume">
+                <Resume />
+            </div>
+            <div id="stack">
+                <Stack />
+            </div>
+            <div id="projects">
+                <Projects />
+            </div>
+            <div id="about">
+                <About />
+            </div>
+            <div id="contact">
+                <Contact />
+            </div>
+        </div>
+    )
 }
 
 export default App
