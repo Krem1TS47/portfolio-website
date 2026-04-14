@@ -1,5 +1,5 @@
 import TypingAnimation from '../components/TypingAnimation'
-import sunburnCover from '../data/sunburnCover.jpg'
+import InteractiveModel from '../components/InteractiveModel'
 
 const Home = () => {
     const phrases = [
@@ -10,7 +10,7 @@ const Home = () => {
     ]
 
     return (
-        <section className="min-h-screen flex items-center justify-center px-8 page-transition relative">
+        <section className="min-h-[85vh] flex items-center justify-center px-8 page-transition relative">
             <div className="max-w-6xl w-full relative z-10">
                 {/* Hero Section */}
                 <div className="text-center mb-16">
@@ -23,16 +23,9 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Sunburn Cover Image */}
-                <div className="flex flex-col justify-center items-center">
-                    <img
-                        src={sunburnCover}
-                        alt="Sunburn Cover"
-                        className="rounded-lg shadow-2xl max-w-md w-full object-cover mb-4"
-                    />
-                    <p className="text-text-secondary font-light text-sm md:text-base text-center italic">
-                        Favorite song: Mona Lisa from Dominic Fike's Sunburn Album
-                    </p>
+                {/* Interactive 3D Model */}
+                <div className="flex flex-col justify-center items-center space-y-6">
+                    <InteractiveModel />
                 </div>
 
             </div>

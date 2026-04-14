@@ -23,7 +23,7 @@ const Stack = () => {
     ]
 
     return (
-        <section className="min-h-screen flex items-center justify-center px-8 py-20 page-transition relative">
+        <section className="min-h-[85vh] flex items-center justify-center px-8 py-16 page-transition relative">
             <div className="max-w-6xl w-full relative z-10">
                 <h1 className="text-5xl md:text-7xl font-light text-text-primary mb-8 tracking-tight">
                     My Stack
