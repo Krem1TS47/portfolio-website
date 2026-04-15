@@ -26,13 +26,24 @@ const About = () => {
                     <div className="order-1 md:order-2 space-y-6">
                         <p className="text-lg md:text-xl font-light text-text-primary leading-relaxed">
                             Hello! I'm <span className="text-accent font-normal">Ben</span>, a computer science student at the University of British Columbia.
-                            I'm quite passionate about software engineering, specifically web development, where I have created numerous personal and hackathon projects that can be found below.
-                            In my studies, I've enjoyed diving into low-level computer architectural components, learning about how hardware and operating systems interact to form complex
-                            systems like virtual memory and file systems. I also love learning about machine learning, specifically model optimizations and the counteracting of ethical biases
-                            in modern models. I look forward to learning more about the mathematical underpinnings of the computer and data science worlds, and how these foundational computations shape
-                            these disciplines.
+                            I'm deeply interested about a few things, so here's a list:
                         </p>
 
+                        {/* Studies Bullet Points */}
+                        <ul className="space-y-2">
+                            {[
+                                "Neural Networks and NLP",
+                                "Probabilistic Models",
+                                "Web Development",
+                                "Data Analytics and Statistical Inference",
+                                "Algorithms and Data Structures"
+                            ].map((item) => (
+                                <li key={item} className="flex items-center gap-3 text-lg font-light text-text-secondary">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
 
                         <p className="text-lg md:text-xl font-light text-text-secondary leading-relaxed">
                             Outside of school, you can definitely find me doing something related to volleyball. Whether it is coaching, playing in a tournament, or just watching a game, I have always been passionate about the sport and love being involved in it.
@@ -40,7 +51,7 @@ const About = () => {
 
                         {/* YouTube Highlights Link */}
                         <a
-                            href="https://www.youtube.com/playlist?list=PLEXApHNWlv1qZ1Ec31SyigL9a6jZVVLAK"
+                            href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors duration-200 group"

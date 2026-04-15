@@ -9,7 +9,8 @@ const Contact = () => {
 
                 <div className="text-center space-y-8">
                     <p className="text-xl md:text-2xl text-text-primary font-light leading-relaxed max-w-2xl mx-auto">
-                        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                        I'm very interested in doing research, collaborating on projects, and sharing my ideas.
+                        Let me know if any of our interests align!
                     </p>
 
                     {/* Contact Methods */}
