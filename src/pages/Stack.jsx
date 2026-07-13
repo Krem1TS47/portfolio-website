@@ -2,23 +2,19 @@ const Stack = () => {
     const stackCategories = [
         {
             title: 'Languages',
-            skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C++', 'C', 'R']
+            skills: ['Python', 'Javascript/Typescript', 'SQL', 'Java', 'C/C++', 'C', 'R', 'HTML/CSS']
         },
         {
-            title: 'Frontend',
-            skills: ['React', 'Next.js', 'TailwindCSS', 'HTML/CSS']
+            title: 'Frameworks',
+            skills: ['React', 'Node.js', 'Next.js', 'Express.js', 'FastAPI', 'RestAPI']
         },
         {
-            title: 'Backend',
-            skills: ['Node.js', 'Express', 'WebSocket', 'FastAPI']
-        },
-        {
-            title: 'Database',
-            skills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Firebase', 'Redis']
+            title: 'Data/ML',
+            skills: ['PyTorch', 'sklearn', 'RAG', 'JupyterHub', 'Pandas', 'NumPy', 'matplotlib', 'PowerBI', 'NLP']
         },
         {
             title: 'Tools & Other',
-            skills: ['Git', 'Docker', 'AWS', 'Linux', 'REST APIs', 'GraphQL']
+            skills: ['Git', 'Github/Gitflow', 'AWS', 'Linux/bash', 'Docker', 'Microsoft365']
         }
     ]
 

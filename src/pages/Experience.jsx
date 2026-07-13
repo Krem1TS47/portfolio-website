@@ -1,28 +1,28 @@
 const experiences = [
     {
-        company: 'Wistron',
+        company: 'Samsung R&D',
         location: 'Vancouver, BC',
         roles: [
             {
-                title: 'Software Engineer Intern',
-                period: 'May 2025 – Present',
-                description: 'Placeholder description for current role at Wistron.',
-            },
-            {
-                title: 'Research Assistant',
-                period: 'Jan 2024 – Apr 2025',
-                description: 'Placeholder description for previous role at Wistron.',
+                title: 'Data Engineer Co-op',
+                period: 'September 2026 - April 2027',
+                description: 'Placeholder description for internship at Samsung.',
             },
         ],
     },
     {
-        company: 'Samsung',
-        location: 'Seoul, South Korea',
+        company: 'Wistron',
+        location: 'Remote',
         roles: [
             {
-                title: 'Software Developer Intern',
-                period: 'May 2023 – Aug 2023',
-                description: 'Placeholder description for internship at Samsung.',
+                title: 'Data Analytics Intern',
+                period: 'July 2026 – Present',
+                description: 'Placeholder description for current role at Wistron.',
+            },
+            {
+                title: 'Systems Development Intern',
+                period: 'May 2026 – July 2026',
+                description: 'Placeholder description for previous role at Wistron.',
             },
         ],
     },
