@@ -25,18 +25,18 @@ const About = () => {
                     {/* Text Section */}
                     <div className="order-1 md:order-2 space-y-6">
                         <p className="text-lg md:text-xl font-light text-text-primary leading-relaxed">
-                            Hello! I'm <span className="text-accent font-normal">Ben</span>, a computer science student at the University of British Columbia.
+                            Hello! I'm <span className="text-accent font-normal">Ben</span>, an honours CS student at UBC.
                             I'm deeply interested about a few things, so here's a list:
                         </p>
 
                         {/* Studies Bullet Points */}
                         <ul className="space-y-2">
                             {[
-                                "Neural Networks and NLP",
-                                "Probabilistic Models",
+                                "Data Engineering",
                                 "Web Development",
-                                "Data Analytics and Statistical Inference",
-                                "Algorithms and Data Structures"
+                                "Data Analytics",
+                                "Machine Learning/Models",
+                                "Software Engineering"
                             ].map((item) => (
                                 <li key={item} className="flex items-center gap-3 text-lg font-light text-text-secondary">
                                     <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
@@ -51,7 +51,7 @@ const About = () => {
 
                         {/* YouTube Highlights Link */}
                         <a
-                            href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
+                            href="https://www.youtube.com/playlist?list=PLEXApHNWlv1qZ1Ec31SyigL9a6jZVVLAK"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors duration-200 group"
