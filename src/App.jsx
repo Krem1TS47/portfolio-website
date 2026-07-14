@@ -7,7 +7,7 @@ import Resume from './pages/Resume'
 import Stack from './pages/Stack'
 import Projects from './pages/Projects'
 import About from './pages/About'
-import Contact from './pages/Contact'
+import Experience from './pages/Experience'
 
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -36,6 +36,9 @@ function App() {
             <div id="resume">
                 <Resume />
             </div>
+            <div id="experience">
+                <Experience />
+            </div>
             <div id="stack">
                 <Stack />
             </div>
@@ -44,9 +47,6 @@ function App() {
             </div>
             <div id="about">
                 <About />
-            </div>
-            <div id="contact">
-                <Contact />
             </div>
         </div>
     )

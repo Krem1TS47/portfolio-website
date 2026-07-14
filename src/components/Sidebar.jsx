@@ -2,10 +2,10 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
     { name: 'Home', path: '#home' },
     { name: 'Resume', path: '#resume' },
+    { name: 'Experience', path: '#experience' },
     { name: 'My Stack', path: '#stack' },
     { name: 'Projects', path: '#projects' },
     { name: 'About Me', path: '#about' },
-    { name: 'Get in Touch', path: '#contact' },
   ]
 
   const handleNavClick = (e, path) => {
