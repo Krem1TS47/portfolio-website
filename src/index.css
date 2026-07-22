@@ -20,6 +20,7 @@
         --text-secondary: #4a4a4a;
         --accent: #8b5cf6;
         --border-color: #e0e0e0;
+        --sidebar-bg: rgba(255, 255, 255, 0.92);
     }
 
     /* Dark Mode */
@@ -30,6 +31,7 @@
         --text-secondary: #a0a0a0;
         --accent: #a78bfa;
         --border-color: #2a2a2a;
+        --sidebar-bg: rgba(10, 10, 10, 0.95);
     }
 
     /* Ensure all text elements inherit properly */
@@ -69,6 +71,11 @@
 
     .border-border-color {
         border-color: var(--border-color);
+    }
+
+    .bg-sidebar {
+        background-color: var(--sidebar-bg);
+        transition: background-color 0.3s ease;
     }
 }
 
