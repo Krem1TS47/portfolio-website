@@ -3,14 +3,14 @@ import InteractiveModel from '../components/InteractiveModel'
 
 const Home = () => {
     const phrases = [
-        'AI/ML',
-        'Software Engineering',
-        'Fullstack Development',
-        'Data Analytics'
+        'Data Engineering',
+        'Software Development',
+        'Data Analytics',
+        'AI/Machine Learning'
     ]
 
     return (
-        <section className="min-h-[85vh] flex items-center justify-center px-8 pt-24 md:pt-32 page-transition relative">
+        <section className="min-h-[85vh] flex items-center justify-center px-8 pt-20 md:pt-28 page-transition relative">
             <div className="max-w-6xl w-full relative z-10">
                 {/* Hero Section */}
                 <div className="text-center mb-16">
