@@ -1,11 +1,11 @@
 const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
     { name: 'Home', path: '#home' },
+    { name: 'About Me', path: '#about' },
     { name: 'Resume', path: '#resume' },
     { name: 'Experience', path: '#experience' },
     { name: 'My Stack', path: '#stack' },
     { name: 'Projects', path: '#projects' },
-    { name: 'About Me', path: '#about' },
   ]
 
   const handleNavClick = (e, path) => {
@@ -31,7 +31,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       
       {/* Sidebar */}
       <nav
-        className={`fixed top-0 left-0 h-full w-80 bg-secondary-bg/95 backdrop-blur-md border-r border-border-color z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-80 bg-white/85 dark:bg-secondary-bg/95 backdrop-blur-md border-r border-border-color z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

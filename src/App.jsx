@@ -33,6 +33,9 @@ function App() {
             <div id="home">
                 <Home />
             </div>
+            <div id="about">
+                <About />
+            </div>
             <div id="resume">
                 <Resume />
             </div>
@@ -44,9 +47,6 @@ function App() {
             </div>
             <div id="projects">
                 <Projects />
-            </div>
-            <div id="about">
-                <About />
             </div>
         </div>
     )
