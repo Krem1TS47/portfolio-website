@@ -20,10 +20,10 @@ const ContactForm = () => {
         if (hash.includes('contact=verified')) {
             setStep('success')
             setStatusMessage('Your message has been verified and sent.')
-            window.history.replaceState(null, '', '#resume')
+            window.history.replaceState(null, '', '#contact')
         } else if (hash.includes('contact=expired')) {
             setError('Verification link expired. Please submit the form again.')
-            window.history.replaceState(null, '', '#resume')
+            window.history.replaceState(null, '', '#contact')
         }
     }, [])
 

@@ -47,7 +47,7 @@ export async function handler(event) {
             if (!payload || isExpired(payload)) {
                 return {
                     statusCode: 302,
-                    headers: { Location: '/#resume?contact=expired' },
+                    headers: { Location: '/#contact?contact=expired' },
                     body: '',
                 }
             }
@@ -56,7 +56,7 @@ export async function handler(event) {
 
             return {
                 statusCode: 302,
-                headers: { Location: '/#resume?contact=verified' },
+                headers: { Location: '/#contact?contact=verified' },
                 body: '',
             }
         }

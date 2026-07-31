@@ -1,16 +1,12 @@
-import ContactForm from '../components/ContactForm'
-
 const Resume = () => {
     return (
         <section className="min-h-[50vh] flex items-center justify-center px-8 py-20 page-transition relative">
             <div className="max-w-4xl w-full relative z-10">
-                <div className="flex flex-col lg:flex-row lg:items-start gap-10">
-                    {/* Contact Info */}
-                    <div className="space-y-6 flex-1">
-                        <h2 className="text-3xl md:text-4xl font-light text-text-primary tracking-tight">
-                            Let's Connect!
-                        </h2>
-                        <div className="grid sm:grid-cols-2 gap-4 text-text-secondary font-light">
+                <div className="space-y-6">
+                    <h2 className="text-3xl md:text-4xl font-light text-text-primary tracking-tight">
+                        Let's Connect!
+                    </h2>
+                    <div className="grid sm:grid-cols-2 gap-4 text-text-secondary font-light">
                             <a
                                 href="mailto:benbenching@gmail.com"
                                 className="p-5 rounded-xl border border-border-color bg-secondary-bg/20 backdrop-blur-sm hover:border-accent transition-all duration-300 hover:scale-105 group"
@@ -57,15 +53,6 @@ const Resume = () => {
                                     </div>
                                 </div>
                             </a>
-                        </div>
-                    </div>
-
-                    {/* Contact Form */}
-                    <div className="space-y-6 flex-1">
-                        <h2 className="text-3xl md:text-4xl font-light text-text-primary tracking-tight">
-                            Send a Message
-                        </h2>
-                        <ContactForm />
                     </div>
                 </div>
             </div>
