@@ -1,3 +1,5 @@
+import ContactForm from '../components/ContactForm'
+
 const Resume = () => {
     return (
         <section className="min-h-[50vh] flex items-center justify-center px-8 py-20 page-transition relative">
@@ -58,6 +60,13 @@ const Resume = () => {
                         </div>
                     </div>
 
+                    {/* Contact Form */}
+                    <div className="space-y-6 flex-1">
+                        <h2 className="text-3xl md:text-4xl font-light text-text-primary tracking-tight">
+                            Send a Message
+                        </h2>
+                        <ContactForm />
+                    </div>
                 </div>
             </div>
         </section>

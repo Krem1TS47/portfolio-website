@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/contact/submit"
+  to = "/.netlify/functions/submit-contact"
+  status = 200
+
+[[redirects]]
+  from = "/api/contact/verify"
+  to = "/.netlify/functions/verify-contact"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
