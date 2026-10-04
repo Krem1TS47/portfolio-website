@@ -63,6 +63,91 @@
 
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.06), 0 24px 60px -24px oklch(0% 0 0 / 0.7);
+
+    /* Garden (daylight) named tokens — see the .garden / .paper scopes below. */
+    --color-sky: oklch(52% 0.19 258);
+    --color-sky-deep: oklch(38% 0.12 255);
+    --color-sky-pale: oklch(92% 0.02 250);
+    --color-paper: oklch(95.5% 0.005 95);
+    --color-cream: oklch(98% 0.02 95);
+    --color-ink: oklch(22% 0.005 90);
+    --color-umber: oklch(25% 0.04 80);
+    --color-gold-300: oklch(80% 0.08 85);
+    --color-gold-500: oklch(72% 0.09 85);
+    --color-gold-700: oklch(63% 0.09 85);
+    --color-sash: oklch(45% 0.13 30);
+    --color-laurel: oklch(48% 0.07 120);
+    --color-olive: oklch(37% 0.05 160);
+    --font-inscription: 'Cinzel Variable', 'Instrument Serif', serif;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Daylight re-skins. These redefine the SAME variable names the
+   utilities read, so text-fg, border-line, glass, label… flip for free.
+   .garden  = the sky world: cream text, gold accents on cobalt.
+   .paper   = marble / paper surfaces inside the garden: ink text.
+   ────────────────────────────────────────────────────────────── */
+.garden,
+html[data-dawn="day"] .chrome {
+    color-scheme: light;
+    color: var(--color-fg);
+    --color-bg-0: oklch(52% 0.19 258);
+    --color-bg-1: oklch(48% 0.18 258);
+    --color-bg-2: oklch(44% 0.16 258);
+    --color-bg-3: oklch(40% 0.14 258);
+    --color-fg: oklch(98% 0.02 95);
+    --color-fg-2: oklch(92% 0.03 95);
+    --color-fg-3: oklch(84% 0.05 90);
+    --color-coral: oklch(80% 0.08 85);
+    --color-coral-hot: oklch(88% 0.07 88);
+    --color-peach: oklch(72% 0.09 85);
+    --color-violet: oklch(48% 0.07 120);
+    --color-line: oklch(98% 0.02 95 / 0.18);
+    --color-line-strong: oklch(98% 0.02 95 / 0.32);
+    --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.18), 0 24px 60px -28px oklch(20% 0.08 258 / 0.6);
+}
+
+.garden .paper {
+    color: var(--color-fg);
+    --color-bg-0: oklch(95.5% 0.005 95);
+    --color-bg-1: oklch(93% 0.008 92);
+    --color-bg-2: oklch(90% 0.01 90);
+    --color-bg-3: oklch(86% 0.012 88);
+    --color-fg: oklch(22% 0.005 90);
+    --color-fg-2: oklch(38% 0.01 85);
+    --color-fg-3: oklch(52% 0.015 80);
+    --color-coral: oklch(63% 0.09 85);
+    --color-coral-hot: oklch(56% 0.1 80);
+    --color-peach: oklch(72% 0.09 85);
+    --color-violet: oklch(48% 0.07 120);
+    --color-line: oklch(22% 0.005 90 / 0.12);
+    --color-line-strong: oklch(22% 0.005 90 / 0.26);
+    --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.8), 0 20px 50px -24px oklch(25% 0.04 80 / 0.35);
+}
+
+/* Fixed elements that straddle night and day. */
+.chrome {
+    transition: background-color 0.4s var(--ease-out-expo), border-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
+}
+
+/* Halftone clouds drift across the day sky; frozen at night and under reduced motion. */
+@keyframes cloud-drift {
+    from { translate: -30vw 0; }
+    to { translate: 110vw 0; }
+}
+
+.cloud-drift {
+    animation: cloud-drift var(--dur, 180s) linear infinite;
+    animation-delay: var(--delay, 0s);
+}
+
+html[data-dawn="night"] .cloud-drift,
+html:not([data-dawn]) .cloud-drift {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cloud-drift { animation: none; translate: 10vw 0; }
 }
 
 /* Frosted surface used by every card, tile and input. */
@@ -100,7 +185,8 @@
     }
 
     body {
-        @apply bg-bg-0 text-fg font-sans antialiased;
+        /* No background here: it would paint over the fixed -z-10 Backdrop. html carries the base colour. */
+        @apply text-fg font-sans antialiased;
         font-size: var(--text-body);
         line-height: var(--text-body--line-height);
     }
@@ -142,7 +228,7 @@
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.45s var(--ease-out-expo);
-        background: radial-gradient(420px circle at var(--mx) var(--my), oklch(74% 0.16 30 / 0.14), transparent 60%);
+        background: radial-gradient(420px circle at var(--mx) var(--my), color-mix(in oklch, var(--color-peach) 30%, transparent), transparent 60%);
     }
 
     &:hover::before {
@@ -205,4 +291,170 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 
 @media (prefers-reduced-motion: reduce) {
     .gradient-border::after { animation: none; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   Greek garden surfaces + lettering
+   ────────────────────────────────────────────────────────────── */
+
+/* Roman inscriptional capitals for eyebrows, plaques, pedestals. */
+@utility inscription {
+    font-family: var(--font-inscription);
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-fg-2);
+}
+
+/* Incised lettering: light edge below, shadow above. */
+@utility engraved {
+    color: color-mix(in oklch, var(--color-fg) 78%, var(--color-bg-1));
+    text-shadow: 0 1px 0 oklch(100% 0 0 / 0.75), 0 -1px 0 oklch(0% 0 0 / 0.28);
+}
+
+@utility engraved-deep {
+    color: color-mix(in oklch, var(--color-fg) 70%, var(--color-bg-2));
+    text-shadow:
+        0 1px 0 oklch(100% 0 0 / 0.85),
+        0 2px 1px oklch(100% 0 0 / 0.35),
+        0 -1px 0 oklch(0% 0 0 / 0.3),
+        0 -2px 2px oklch(0% 0 0 / 0.12);
+}
+
+/* Gold leaf lettering. */
+@utility gold {
+    background: linear-gradient(120deg,
+        var(--color-gold-700) 0%,
+        var(--color-gold-500) 30%,
+        oklch(94% 0.06 90) 48%,
+        var(--color-gold-500) 62%,
+        var(--color-gold-700) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Gold leaf surface (pears, rules, caps). */
+@utility gold-leaf {
+    background: linear-gradient(135deg,
+        var(--color-gold-700) 0%,
+        var(--color-gold-500) 35%,
+        oklch(94% 0.06 90) 50%,
+        var(--color-gold-500) 64%,
+        var(--color-gold-700) 100%);
+}
+
+/* Veined marble. Veins come from one 480px SVG tile rasterised once. */
+@utility marble {
+    background-color: var(--color-paper);
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27480%27 height=%27480%27%3E%3Cfilter id=%27v%27 x=%270%27 y=%270%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.0035 0.024%27 numOctaves=%274%27 seed=%273%27 result=%27n%27/%3E%3CfeColorMatrix in=%27n%27 type=%27matrix%27 values=%270 0 0 0 0.46  0 0 0 0 0.43  0 0 0 0 0.40  0 0 0 1 0%27 result=%27g%27/%3E%3CfeComponentTransfer in=%27g%27%3E%3CfeFuncA type=%27table%27 tableValues=%270 0 0 0.55 0.9 0.55 0 0 0%27/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(#v)%27/%3E%3C/svg%3E"),
+        linear-gradient(112deg, transparent 48.6%, oklch(60% 0.01 80 / 0.16) 49.2%, transparent 50.2%),
+        linear-gradient(68deg, transparent 30%, oklch(55% 0.015 85 / 0.13) 30.5%, transparent 31.3%),
+        linear-gradient(150deg, transparent 72%, oklch(62% 0.01 80 / 0.11) 72.5%, transparent 73.6%),
+        linear-gradient(180deg, oklch(98% 0.02 95), oklch(93.5% 0.008 92));
+    background-size: 480px 480px, 900px 900px, 700px 700px, 1100px 1100px, 100% 100%;
+    background-blend-mode: multiply, normal, normal, normal, normal;
+}
+
+@utility marble-dark {
+    background-color: oklch(88% 0.012 88);
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27480%27 height=%27480%27%3E%3Cfilter id=%27v%27 x=%270%27 y=%270%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.0035 0.024%27 numOctaves=%274%27 seed=%273%27 result=%27n%27/%3E%3CfeColorMatrix in=%27n%27 type=%27matrix%27 values=%270 0 0 0 0.46  0 0 0 0 0.43  0 0 0 0 0.40  0 0 0 1 0%27 result=%27g%27/%3E%3CfeComponentTransfer in=%27g%27%3E%3CfeFuncA type=%27table%27 tableValues=%270 0 0 0.55 0.9 0.55 0 0 0%27/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(#v)%27/%3E%3C/svg%3E"),
+        linear-gradient(180deg, oklch(92% 0.012 90), oklch(84% 0.014 85));
+    background-size: 480px 480px, 100% 100%;
+    background-blend-mode: multiply, normal;
+}
+
+/* Paper grain overlay. */
+@utility parchment {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 240px 240px;
+        mix-blend-mode: multiply;
+        opacity: 0.12;
+    }
+}
+
+/* Greek key frame via border-image (gold on paper / sky). */
+@utility meander {
+    border: 12px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2736%27 height=%2736%27%3E%3Cdefs%3E%3Cpattern id=%27k%27 patternUnits=%27userSpaceOnUse%27 width=%2712%27 height=%2712%27%3E%3Cpath d=%27M1.5 10.5 V1.5 H10.5 V7.5 H5.5 V5.5 H8.5 V3.5 H3.5 V10.5 H10.5%27 fill=%27none%27 stroke=%27#c9a95c%27 stroke-width=%271.4%27 stroke-linejoin=%27miter%27/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%2736%27 height=%2736%27 fill=%27url(#k)%27/%3E%3C/svg%3E") 12 round;
+}
+
+@utility meander-ink {
+    border: 12px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2736%27 height=%2736%27%3E%3Cdefs%3E%3Cpattern id=%27k%27 patternUnits=%27userSpaceOnUse%27 width=%2712%27 height=%2712%27%3E%3Cpath d=%27M1.5 10.5 V1.5 H10.5 V7.5 H5.5 V5.5 H8.5 V3.5 H3.5 V10.5 H10.5%27 fill=%27none%27 stroke=%27#2a2620%27 stroke-width=%271.4%27 stroke-linejoin=%27miter%27/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%2736%27 height=%2736%27 fill=%27url(#k)%27/%3E%3C/svg%3E") 12 round;
+}
+
+/* Brass museum plaque. */
+@utility plaque {
+    position: relative;
+    background: linear-gradient(160deg, oklch(74% 0.09 78) 0%, oklch(60% 0.09 72) 55%, oklch(68% 0.1 75) 100%);
+    box-shadow:
+        inset 0 1px 0 oklch(100% 0 0 / 0.55),
+        inset 0 -2px 4px oklch(0% 0 0 / 0.25),
+        0 14px 34px -18px oklch(30% 0.03 60 / 0.55);
+    outline: 1px solid oklch(45% 0.07 70 / 0.5);
+    outline-offset: -8px;
+}
+
+/* Dot screen that fades at the edges. */
+@utility halftone {
+    background-image: radial-gradient(circle, currentColor 1.2px, transparent 1.45px);
+    background-size: 6px 6px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 72%);
+    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 72%);
+}
+
+/* Pear tree: gentle sway, running only while the orchard is on screen. */
+@keyframes pear-sway {
+    from { rotate: -2.6deg; }
+    to { rotate: 2.6deg; }
+}
+
+.pear-sway {
+    animation: pear-sway var(--dur, 4s) ease-in-out infinite alternate;
+    animation-delay: var(--delay, 0s);
+    animation-play-state: paused;
+}
+
+.is-live .pear-sway {
+    animation-play-state: running;
+}
+
+.pear-label {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+    .pear-label { visibility: visible; }
+}
+
+.pear:is(:hover, :focus-visible) .pear-label {
+    visibility: visible;
+}
+
+.pear:focus-visible {
+    outline: none;
+}
+
+.pear:focus-visible path {
+    stroke: var(--color-cream);
+    stroke-width: 2.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pear-sway { animation: none; }
 }

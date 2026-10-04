@@ -1,7 +1,8 @@
 # Benjamin Ching — Portfolio
 
 Single-page portfolio built with React 19, Vite, Tailwind CSS 4, Motion and React Three Fiber.
-Dark-only, OKLCH design tokens, and a procedurally textured planet on the hero.
+A night-sky planet hero that dawns into a Greek garden: marble bust, stoa, pear tree of skills,
+and a museum gallery of projects, all drawn in code with CC0 antiquities from The Met.
 
 ## Stack
 
@@ -11,7 +12,8 @@ Dark-only, OKLCH design tokens, and a procedurally textured planet on the hero.
 | Styling | Tailwind CSS 4 (`@theme` tokens in `src/index.css`), self-hosted fonts via Fontsource |
 | Motion | [Motion](https://motion.dev) (`motion/react`) for all UI animation, Lenis for inertial scroll |
 | 3D | three.js + React Three Fiber, Drei, `@react-three/postprocessing`, `three-custom-shader-material` |
-| Backend | Netlify Functions (`netlify/functions`) for the email-verified contact form |
+| Art | SVG ornaments in `src/components/ornaments/`; CC0 images from The Met Open Access (`npm run art:fetch`) |
+| Backend | Netlify Functions (`netlify/functions`) for an email-verified contact form (currently not wired to the UI) |
 
 ## Getting started
 
@@ -23,39 +25,48 @@ npm run build
 npm run preview
 ```
 
-Copy `.env.example` to `.env` for the contact form (Resend API key, owner email, JWT secret).
+`npm run art:fetch` re-downloads the pinned Met artworks listed in `scripts/met-objects.json` into `public/art/`
+and regenerates `src/data/art.json` (attribution manifest). Behind a TLS-intercepting proxy, set `NODE_EXTRA_CA_CERTS`.
 
 ## Project structure
 
 ```
 src/
 ├── components/
-│   ├── Section.jsx, SectionHeading.jsx   # layout primitives
-│   ├── Backdrop.jsx, Grain.jsx           # page backdrop + film grain
-│   ├── Reveal.jsx                        # scroll-reveal primitives (Reveal, RevealGroup, RevealItem)
-│   ├── HeroTitle.jsx, RotatingWord.jsx   # hero text motion
-│   ├── Sidebar.jsx, MenuButton.jsx       # navigation
-│   ├── TiltCard.jsx, ChipField.jsx       # interactive cards / throwable skill chips
-│   ├── Timeline.jsx, MagneticTile.jsx    # experience rail, contact tiles
-│   ├── ContactForm.jsx                   # verified contact flow (talks to netlify/functions)
-│   ├── Cursor.jsx, ScrollProgress.jsx, SmoothScroll.jsx
-│   └── PlanetPoster.jsx, SceneErrorBoundary.jsx
-├── three/                                # React Three Fiber planet scene (lazy-loaded)
-│   ├── PlanetScene.jsx, Scene.jsx, Planet.jsx, DustRing.jsx, Moons.jsx, Effects.jsx
-│   ├── shaders/                          # atmosphere Fresnel + night-lights GLSL
-│   └── textures/procedural.js            # canvas-generated planet textures (no assets shipped)
-├── pages/                                # one component per section
-├── data/                                 # nav, projects, experience, stack content
-├── hooks/                                # useMagnetic, useActiveSection, useMediaQuery
-├── motion/presets.js                     # shared easing / spring vocabulary
-└── index.css                             # Tailwind 4 theme tokens + utilities
+│   ├── Section.jsx, SectionHeading.jsx     # layout primitives
+│   ├── Backdrop.jsx, Grain.jsx             # night nebula + day cobalt sky (cross-faded by `dawn`), film grain
+│   ├── Reveal.jsx                          # scroll-reveal primitives (Reveal, RevealGroup, RevealItem)
+│   ├── HeroTitle.jsx, RotatingWord.jsx     # hero text motion
+│   ├── Sidebar.jsx, MenuButton.jsx         # navigation
+│   ├── MarbleBust.jsx                      # About: photo → marble bust via SVG filters, on a Pedestal
+│   ├── Stoa.jsx                            # Experience: Doric colonnade with a scroll-drawn stylobate
+│   ├── PearTree.jsx, StackGrove.jsx        # Stack: SVG orchard (desktop) / steles (mobile)
+│   ├── Gallery.jsx, Artwork.jsx            # Projects: pinned horizontal museum / vertical wall
+│   ├── Footer.jsx                          # brass plaque colophon with contact links + attributions
+│   ├── TiltCard.jsx, Cursor.jsx, ScrollProgress.jsx, SmoothScroll.jsx
+│   ├── PlanetPoster.jsx, SceneErrorBoundary.jsx
+│   └── ornaments/                          # Meander, Laurel, DoricColumn, Amphora, HalftoneCloud, DottedRings, Pedestal, Stele
+├── three/                                  # React Three Fiber planet scene (lazy-loaded)
+├── pages/                                  # one component per section
+├── data/                                   # nav, projects, experience, stack, tree geometry, contact, art.json
+├── hooks/                                  # useDawn, useMagnetic, useActiveSection, useMediaQuery
+├── motion/                                 # presets.js (easing/springs), dawn.js (night→day motion value)
+└── index.css                               # Tailwind 4 theme tokens, garden/paper scopes, utilities
+scripts/fetch-met-art.mjs                   # downloads CC0 Met objects → public/art + src/data/art.json
 ```
 
 ## Design tokens
 
 All colours are OKLCH and defined once in `src/index.css` under `@theme`:
-surfaces `bg-0…bg-3`, text `fg / fg-2 / fg-3`, accents `coral / coral-hot / peach / violet`, hairlines `line / line-strong`.
-Utilities: `glass`, `glass-hover`, `label`, `spotlight`, `gradient-border`.
+surfaces `bg-0…bg-3`, text `fg / fg-2 / fg-3`, accents `coral / coral-hot / peach / violet`, hairlines `line / line-strong`,
+plus garden names (`sky`, `paper`, `cream`, `ink`, `gold-300/500/700`, `sash`, `laurel`, `olive`).
+
+Two scopes re-skin the same variables so every utility flips automatically:
+`.garden` (everything below the hero: cream text and gold accents on cobalt sky) and
+`.garden .paper` (marble/paper surfaces: ink text). The hero's scroll progress drives the `dawn`
+motion value (`src/motion/dawn.js`), which cross-fades the Backdrop and sets `data-dawn` on `<html>`.
+
+Utilities: `glass`, `label`, `spotlight`, `inscription`, `engraved`, `gold`, `gold-leaf`, `marble`, `parchment`, `meander`, `plaque`, `halftone`.
 
 ## Accessibility and performance
 

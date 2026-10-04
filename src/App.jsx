@@ -6,13 +6,12 @@ import ScrollProgress from './components/ScrollProgress'
 import Cursor from './components/Cursor'
 import Sidebar from './components/Sidebar'
 import MenuButton from './components/MenuButton'
+import Footer from './components/Footer'
 import Home from './pages/Home'
-import Resume from './pages/Resume'
-import Stack from './pages/Stack'
-import Projects from './pages/Projects'
 import About from './pages/About'
 import Experience from './pages/Experience'
-import Contact from './pages/Contact'
+import Stack from './pages/Stack'
+import Projects from './pages/Projects'
 
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -22,8 +21,7 @@ function App() {
     const toggleSidebar = useCallback(() => setIsSidebarOpen((open) => !open), [])
     const closeSidebar = useCallback(() => setIsSidebarOpen(false), [])
 
-    // Deep links such as /#contact?contact=verified: scroll to the anchor
-    // part only; ContactForm reads the query part from the hash itself.
+    // Deep links such as /#about (older emails may still carry a ?query suffix).
     useEffect(() => {
         const [anchor] = window.location.hash.split('?')
         if (!anchor || anchor === '#') return
@@ -48,12 +46,14 @@ function App() {
 
             <main>
                 <Home />
-                <About />
-                <Resume />
-                <Contact />
-                <Experience />
-                <Stack />
-                <Projects />
+                {/* Everything below the hero lives in the daylight garden palette. */}
+                <div className="garden">
+                    <About />
+                    <Experience />
+                    <Stack />
+                    <Projects />
+                    <Footer />
+                </div>
             </main>
         </div>
     )

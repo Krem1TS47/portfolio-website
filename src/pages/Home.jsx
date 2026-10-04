@@ -7,6 +7,8 @@ import { EASE } from '../motion/presets'
 import PlanetPoster from '../components/PlanetPoster'
 import SceneErrorBoundary from '../components/SceneErrorBoundary'
 import { useWebGL } from '../three/useWebGL'
+import { useDawn } from '../hooks/useDawn'
+import { dawn } from '../motion/dawn'
 
 const PlanetScene = lazy(() => import('../three/PlanetScene'))
 
@@ -37,6 +39,7 @@ const Home = () => {
 
     // 0 → 1 as the hero scrolls out of view.
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+    useDawn(scrollYProgress)
     const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
     const textY = useTransform(scrollYProgress, [0, 1], [0, -80])
     const hintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
@@ -79,6 +82,12 @@ const Home = () => {
                         <div
                             aria-hidden="true"
                             className="absolute inset-x-0 bottom-0 h-48 pointer-events-none bg-linear-to-t from-bg-0 to-transparent"
+                        />
+                        {/* Sunrise: warms the night→sky seam as the garden dawns */}
+                        <motion.div
+                            aria-hidden="true"
+                            style={{ opacity: dawn }}
+                            className="absolute inset-x-0 bottom-0 h-72 pointer-events-none mix-blend-screen bg-[linear-gradient(180deg,transparent_0%,oklch(38%_0.12_255_/_0.55)_45%,oklch(72%_0.09_85_/_0.55)_100%)]"
                         />
                     </>
                 }
