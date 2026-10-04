@@ -1,96 +1,64 @@
-# Portfolio Site
+# Benjamin Ching — Portfolio
 
-A minimalist portfolio website built with React, Vite, and Tailwind CSS, inspired by elegant design aesthetics.
+Single-page portfolio built with React 19, Vite, Tailwind CSS 4, Motion and React Three Fiber.
+Dark-only, OKLCH design tokens, and a procedurally textured planet on the hero.
 
-## Features
+## Stack
 
-- ✨ Clean, minimalist design with dark theme
-- 🎨 Styled with Tailwind CSS
-- ⚡ Fast development with Vite
-- 🧭 Smooth sidebar navigation
-- 📱 Responsive design
-- 🎭 Page transitions and animations
+| Layer | Library |
+|---|---|
+| UI | React 19, Vite 5 |
+| Styling | Tailwind CSS 4 (`@theme` tokens in `src/index.css`), self-hosted fonts via Fontsource |
+| Motion | [Motion](https://motion.dev) (`motion/react`) for all UI animation, Lenis for inertial scroll |
+| 3D | three.js + React Three Fiber, Drei, `@react-three/postprocessing`, `three-custom-shader-material` |
+| Backend | Netlify Functions (`netlify/functions`) for the email-verified contact form |
 
-## Getting Started
-
-### Installation
+## Getting started
 
 ```bash
 npm install
-```
-
-### Development
-
-```bash
-npm run dev
-```
-
-This will start the development server at `http://localhost:5173`
-
-### Build
-
-```bash
+npm run dev          # http://localhost:5173
+npm run dev:netlify  # with the contact-form functions on :8888
 npm run build
-```
-
-### Preview Production Build
-
-```bash
 npm run preview
 ```
 
-## Project Structure
+Copy `.env.example` to `.env` for the contact form (Resend API key, owner email, JWT secret).
+
+## Project structure
 
 ```
-├── src/
-│   ├── components/
-│   │   ├── Sidebar.jsx       # Sidebar navigation component
-│   │   └── MenuButton.jsx    # Hamburger menu button
-│   ├── pages/
-│   │   ├── Home.jsx          # Home page with 3D placeholder
-│   │   ├── About.jsx         # About page (blank template)
-│   │   ├── Writing.jsx       # Writing page (blank template)
-│   │   ├── Projects.jsx      # Projects page (blank template)
-│   │   └── Contact.jsx       # Contact page (blank template)
-│   ├── App.jsx               # Main app component with routing
-│   ├── main.jsx              # Entry point
-│   └── index.css             # Global styles with Tailwind
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-└── postcss.config.js
+src/
+├── components/
+│   ├── Section.jsx, SectionHeading.jsx   # layout primitives
+│   ├── Backdrop.jsx, Grain.jsx           # page backdrop + film grain
+│   ├── Reveal.jsx                        # scroll-reveal primitives (Reveal, RevealGroup, RevealItem)
+│   ├── HeroTitle.jsx, RotatingWord.jsx   # hero text motion
+│   ├── Sidebar.jsx, MenuButton.jsx       # navigation
+│   ├── TiltCard.jsx, ChipField.jsx       # interactive cards / throwable skill chips
+│   ├── Timeline.jsx, MagneticTile.jsx    # experience rail, contact tiles
+│   ├── ContactForm.jsx                   # verified contact flow (talks to netlify/functions)
+│   ├── Cursor.jsx, ScrollProgress.jsx, SmoothScroll.jsx
+│   └── PlanetPoster.jsx, SceneErrorBoundary.jsx
+├── three/                                # React Three Fiber planet scene (lazy-loaded)
+│   ├── PlanetScene.jsx, Scene.jsx, Planet.jsx, DustRing.jsx, Moons.jsx, Effects.jsx
+│   ├── shaders/                          # atmosphere Fresnel + night-lights GLSL
+│   └── textures/procedural.js            # canvas-generated planet textures (no assets shipped)
+├── pages/                                # one component per section
+├── data/                                 # nav, projects, experience, stack content
+├── hooks/                                # useMagnetic, useActiveSection, useMediaQuery
+├── motion/presets.js                     # shared easing / spring vocabulary
+└── index.css                             # Tailwind 4 theme tokens + utilities
 ```
 
-## Customization
+## Design tokens
 
-### Colors
+All colours are OKLCH and defined once in `src/index.css` under `@theme`:
+surfaces `bg-0…bg-3`, text `fg / fg-2 / fg-3`, accents `coral / coral-hot / peach / violet`, hairlines `line / line-strong`.
+Utilities: `glass`, `glass-hover`, `label`, `spotlight`, `gradient-border`.
 
-Edit the color scheme in `tailwind.config.js`:
+## Accessibility and performance
 
-```js
-colors: {
-  'primary-bg': '#0a0a0a',
-  'secondary-bg': '#1a1a1a',
-  'accent': '#e0e0e0',
-  'text-primary': '#ffffff',
-  'text-secondary': '#a0a0a0',
-}
-```
-
-### Fonts
-
-The project uses Inter and Merriweather fonts from Google Fonts. You can change these in `index.html` and `tailwind.config.js`.
-
-## Future Enhancements
-
-- [ ] Add 3D interactive design to home page
-- [ ] Customize About page content
-- [ ] Add writing posts to Writing page
-- [ ] Showcase projects on Projects page
-- [ ] Add contact form to Contact page
-
-## License
-
-MIT
-
+- `prefers-reduced-motion` swaps the WebGL planet for a CSS poster, disables Lenis, and collapses motion to fades.
+- The 3D scene is lazy-loaded, renders at a clamped device pixel ratio, and pauses its render loop when scrolled off-screen.
+- Keyboard: the sidebar is a modal dialog (Escape closes, focus is managed); all interactive elements have a visible focus ring.
