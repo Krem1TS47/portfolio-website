@@ -1,17 +1,13 @@
+import Section from '../components/Section'
+import SectionHeading from '../components/SectionHeading'
 import ContactForm from '../components/ContactForm'
+import { Reveal } from '../components/Reveal'
 
-const Contact = () => {
-    return (
-        <section className="min-h-[50vh] flex items-center justify-center px-8 py-16 page-transition relative">
-            <div className="max-w-2xl w-full relative z-10">
-                <h1 className="text-5xl md:text-7xl font-light text-text-primary mb-8 tracking-tight">
-                    Send a Message
-                </h1>
-                <div className="h-px w-24 bg-accent mb-12"></div>
-                <ContactForm />
-            </div>
-        </section>
-    )
-}
+const Contact = () => (
+    <Section id="contact" size="sm">
+        <Reveal><SectionHeading index="03" eyebrow="Contact" title="Send a Message" /></Reveal>
+        <Reveal delay={0.1} blur={false}><ContactForm /></Reveal>
+    </Section>
+)
 
 export default Contact
