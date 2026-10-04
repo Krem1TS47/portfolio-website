@@ -1,0 +1,9 @@
+{
+  "note": "Pinned objects from The Met's Greek and Roman Art department (departmentId 13). All CC0 (Open Access). Run `npm run art:fetch` to download into public/art and regenerate src/data/art.json.",
+  "objects": [
+    { "id": 250551, "role": "gallery-exit", "hint": "Terracotta neck-amphora attributed to Exekias" },
+    { "id": 251042, "role": "about-companion", "hint": "Marble head of a kouros" },
+    { "id": 252887, "role": "gallery-decor", "hint": "Marble head of a philosopher" },
+    { "id": 255016, "role": "gallery-decor", "hint": "Marble head from a herm" }
+  ]
+}

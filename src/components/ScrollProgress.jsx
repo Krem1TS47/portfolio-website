@@ -8,7 +8,7 @@ const ScrollProgress = () => {
         <motion.div
             aria-hidden="true"
             style={{ scaleX }}
-            className="fixed top-0 left-0 right-0 h-0.5 origin-left z-50 bg-linear-to-r from-coral via-peach to-violet"
+            className="chrome fixed top-0 left-0 right-0 h-0.5 origin-left z-50 bg-linear-to-r from-coral via-peach to-violet"
         />
     )
 }

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 250551,
+    "role": "gallery-exit",
+    "src": "/art/met-250551.jpg",
+    "title": "Terracotta neck-amphora (jar) with lid and knob (27.16)",
+    "culture": "Greek, Attic",
+    "period": "Archaic",
+    "date": "ca. 540 BCE",
+    "medium": "Terracotta",
+    "artist": "Exekias",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/250551",
+    "credit": "Terracotta neck-amphora (jar) with lid and knob (27.16), ca. 540 BCE. The Metropolitan Museum of Art, Open Access (CC0).",
+    "license": "CC0 1.0",
+    "fetchedAt": "2026-10-04"
+  },
+  {
+    "id": 251042,
+    "role": "about-companion",
+    "src": "/art/met-251042.jpg",
+    "title": "Marble head of a kouros (youth)",
+    "culture": "Greek, Attic",
+    "period": "Archaic",
+    "date": "mid-6th century BCE",
+    "medium": "Marble, Island",
+    "artist": null,
+    "objectURL": "https://www.metmuseum.org/art/collection/search/251042",
+    "credit": "Marble head of a kouros (youth), mid-6th century BCE. The Metropolitan Museum of Art, Open Access (CC0).",
+    "license": "CC0 1.0",
+    "fetchedAt": "2026-10-04"
+  },
+  {
+    "id": 252887,
+    "role": "gallery-decor",
+    "src": "/art/met-252887.jpg",
+    "title": "Marble head of a philosopher",
+    "culture": "Roman",
+    "period": "Imperial",
+    "date": "1st or 2nd century CE",
+    "medium": "Marble, Pentelic",
+    "artist": null,
+    "objectURL": "https://www.metmuseum.org/art/collection/search/252887",
+    "credit": "Marble head of a philosopher, 1st or 2nd century CE. The Metropolitan Museum of Art, Open Access (CC0).",
+    "license": "CC0 1.0",
+    "fetchedAt": "2026-10-04"
+  },
+  {
+    "id": 255016,
+    "role": "gallery-decor",
+    "src": "/art/met-255016.jpg",
+    "title": "Marble head from a herm",
+    "culture": "Greek",
+    "period": "Classical",
+    "date": "probably late 5th century BCE",
+    "medium": "Marble",
+    "artist": null,
+    "objectURL": "https://www.metmuseum.org/art/collection/search/255016",
+    "credit": "Marble head from a herm, probably late 5th century BCE. The Metropolitan Museum of Art, Open Access (CC0).",
+    "license": "CC0 1.0",
+    "fetchedAt": "2026-10-04"
+  }
+]

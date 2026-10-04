@@ -23,7 +23,7 @@ const MenuButton = ({ onClick, isOpen, buttonRef }) => {
             aria-expanded={isOpen}
             data-cursor="link"
             whileTap={{ scale: 0.92 }}
-            className="fixed top-5 left-5 md:top-7 md:left-7 z-[55] w-14 h-14 rounded-full glass glass-hover flex flex-col items-center justify-center gap-[6px]"
+            className="chrome fixed top-5 left-5 md:top-7 md:left-7 z-[55] w-14 h-14 rounded-full glass glass-hover flex flex-col items-center justify-center gap-[6px]"
         >
             <motion.span
                 className={LINE}

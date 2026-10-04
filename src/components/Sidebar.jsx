@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
                 <>
                     <motion.div
                         key="overlay"
-                        className="fixed inset-0 z-40 bg-bg-0/70 backdrop-blur-xs"
+                        className="chrome fixed inset-0 z-40 bg-bg-0/70 backdrop-blur-xs"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -66,7 +66,7 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
                         role="dialog"
                         aria-modal="true"
                         aria-label="Site navigation"
-                        className="fixed top-0 left-0 h-full w-[min(20rem,86vw)] z-50 bg-bg-1/95 backdrop-blur-xl border-r border-line flex flex-col"
+                        className="chrome fixed top-0 left-0 h-full w-[min(20rem,86vw)] z-50 bg-bg-1/95 backdrop-blur-xl border-r border-line flex flex-col"
                         initial={{ x: '-100%' }}
                         animate={{ x: 0, transition: SPRING.panel }}
                         exit={{ x: '-100%', transition: { duration: 0.32, ease: EASE } }}
@@ -106,7 +106,7 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
                                         >
                                             <span className="font-display text-2xl">{item.name}</span>
                                             <span className="label text-fg-3 group-hover:text-coral transition-colors">
-                                                0{i + 1}
+                                                {item.index ?? '—'}
                                             </span>
                                         </a>
                                     </motion.li>
