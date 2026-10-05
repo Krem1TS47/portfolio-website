@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useLenis } from 'lenis/react'
 import { navItems } from '../data/nav'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { EASE, SPRING } from '../motion/presets'
 
@@ -19,11 +20,21 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
     const lenis = useLenis()
     const active = useActiveSection(IDS)
     const firstLink = useRef(null)
+    const panel = useRef(null)
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)')
 
     // Escape to close, scroll lock while open, focus management.
     useEffect(() => {
         if (!isOpen) return
-        const onKey = (e) => e.key === 'Escape' && onClose()
+        const onKey = (event) => {
+            if (event.key === 'Escape') onClose()
+            if (event.key !== 'Tab') return
+            const controls = [returnFocusRef?.current, ...panel.current.querySelectorAll('a[href], button')].filter(Boolean)
+            const current = controls.indexOf(document.activeElement)
+            event.preventDefault()
+            const next = current < 0 ? 0 : (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length
+            controls[next]?.focus()
+        }
         window.addEventListener('keydown', onKey)
         lenis?.stop()
         document.documentElement.style.overflow = 'hidden'
@@ -40,11 +51,11 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
     const go = (e, path) => {
         e.preventDefault()
         onClose()
-        if (lenis) {
-            lenis.scrollTo(path, { duration: 1.2, easing: easeOutQuart, offset: -16, force: true })
-        } else {
-            document.querySelector(path)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
+        // Let the close effect release the scroll lock before starting travel.
+        requestAnimationFrame(() => {
+            if (lenis) lenis.scrollTo(path, { immediate: reduced, duration: 1.2, easing: easeOutQuart, offset: -16, force: true })
+            else document.querySelector(path)?.scrollIntoView({ behavior: reduced ? 'instant' : 'smooth', block: 'start' })
+        })
         window.history.replaceState(null, '', path)
     }
 
@@ -63,6 +74,7 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
                     />
                     <motion.nav
                         key="panel"
+                        ref={panel}
                         role="dialog"
                         aria-modal="true"
                         aria-label="Site navigation"
@@ -72,7 +84,7 @@ const Sidebar = ({ isOpen, onClose, returnFocusRef }) => {
                         exit={{ x: '-100%', transition: { duration: 0.32, ease: EASE } }}
                     >
                         <div className="pt-28 px-8 pb-6">
-                            <p className="label">Navigate</p>
+                            <p className="label">Choose a destination</p>
                         </div>
 
                         <motion.ul

@@ -10,7 +10,7 @@
     --color-*: initial;
 
     /* Surfaces: blue-black base with 4 elevation steps (+3–5% L per step). */
-    --color-bg-0: oklch(14% 0.020 290);
+    --color-bg-0: #13111d;
     --color-bg-1: oklch(17% 0.022 290);
     --color-bg-2: oklch(21% 0.024 292);
     --color-bg-3: oklch(26% 0.026 294);
@@ -18,13 +18,14 @@
     /* Text: warm off-white so it reads as paper, not grey. */
     --color-fg: oklch(96% 0.012 80);
     --color-fg-2: oklch(76% 0.015 80);
-    --color-fg-3: oklch(58% 0.015 290);
+    --color-fg-3: #aca3b7;
+    --color-moon: #c8dcff;
 
     /* Accents: one coral, with peach and violet as supporting tints. */
-    --color-coral: oklch(74% 0.160 30);
+    --color-coral: #f08a7a;
     --color-coral-hot: oklch(82% 0.140 36);
-    --color-peach: oklch(86% 0.080 60);
-    --color-violet: oklch(70% 0.140 300);
+    --color-peach: #ffd9b8;
+    --color-violet: #9b7bff;
     --color-danger: oklch(70% 0.170 25);
 
     /* Hairlines as alpha-fg so they sit on any surface. */
@@ -64,90 +65,6 @@
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.06), 0 24px 60px -24px oklch(0% 0 0 / 0.7);
 
-    /* Garden (daylight) named tokens — see the .garden / .paper scopes below. */
-    --color-sky: oklch(52% 0.19 258);
-    --color-sky-deep: oklch(38% 0.12 255);
-    --color-sky-pale: oklch(92% 0.02 250);
-    --color-paper: oklch(95.5% 0.005 95);
-    --color-cream: oklch(98% 0.02 95);
-    --color-ink: oklch(22% 0.005 90);
-    --color-umber: oklch(25% 0.04 80);
-    --color-gold-300: oklch(80% 0.08 85);
-    --color-gold-500: oklch(72% 0.09 85);
-    --color-gold-700: oklch(63% 0.09 85);
-    --color-sash: oklch(45% 0.13 30);
-    --color-laurel: oklch(48% 0.07 120);
-    --color-olive: oklch(37% 0.05 160);
-    --font-inscription: 'Cinzel Variable', 'Instrument Serif', serif;
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Daylight re-skins. These redefine the SAME variable names the
-   utilities read, so text-fg, border-line, glass, label… flip for free.
-   .garden  = the sky world: cream text, gold accents on cobalt.
-   .paper   = marble / paper surfaces inside the garden: ink text.
-   ────────────────────────────────────────────────────────────── */
-.garden,
-html[data-dawn="day"] .chrome {
-    color-scheme: light;
-    color: var(--color-fg);
-    --color-bg-0: oklch(52% 0.19 258);
-    --color-bg-1: oklch(48% 0.18 258);
-    --color-bg-2: oklch(44% 0.16 258);
-    --color-bg-3: oklch(40% 0.14 258);
-    --color-fg: oklch(98% 0.02 95);
-    --color-fg-2: oklch(92% 0.03 95);
-    --color-fg-3: oklch(84% 0.05 90);
-    --color-coral: oklch(80% 0.08 85);
-    --color-coral-hot: oklch(88% 0.07 88);
-    --color-peach: oklch(72% 0.09 85);
-    --color-violet: oklch(48% 0.07 120);
-    --color-line: oklch(98% 0.02 95 / 0.18);
-    --color-line-strong: oklch(98% 0.02 95 / 0.32);
-    --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.18), 0 24px 60px -28px oklch(20% 0.08 258 / 0.6);
-}
-
-.garden .paper {
-    color: var(--color-fg);
-    --color-bg-0: oklch(95.5% 0.005 95);
-    --color-bg-1: oklch(93% 0.008 92);
-    --color-bg-2: oklch(90% 0.01 90);
-    --color-bg-3: oklch(86% 0.012 88);
-    --color-fg: oklch(22% 0.005 90);
-    --color-fg-2: oklch(38% 0.01 85);
-    --color-fg-3: oklch(52% 0.015 80);
-    --color-coral: oklch(63% 0.09 85);
-    --color-coral-hot: oklch(56% 0.1 80);
-    --color-peach: oklch(72% 0.09 85);
-    --color-violet: oklch(48% 0.07 120);
-    --color-line: oklch(22% 0.005 90 / 0.12);
-    --color-line-strong: oklch(22% 0.005 90 / 0.26);
-    --shadow-glass: inset 0 1px 0 0 oklch(100% 0 0 / 0.8), 0 20px 50px -24px oklch(25% 0.04 80 / 0.35);
-}
-
-/* Fixed elements that straddle night and day. */
-.chrome {
-    transition: background-color 0.4s var(--ease-out-expo), border-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
-}
-
-/* Halftone clouds drift across the day sky; frozen at night and under reduced motion. */
-@keyframes cloud-drift {
-    from { translate: -30vw 0; }
-    to { translate: 110vw 0; }
-}
-
-.cloud-drift {
-    animation: cloud-drift var(--dur, 180s) linear infinite;
-    animation-delay: var(--delay, 0s);
-}
-
-html[data-dawn="night"] .cloud-drift,
-html:not([data-dawn]) .cloud-drift {
-    animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .cloud-drift { animation: none; translate: 10vw 0; }
 }
 
 /* Frosted surface used by every card, tile and input. */
@@ -294,167 +211,663 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 }
 
 
-/* ──────────────────────────────────────────────────────────────
-   Greek garden surfaces + lettering
-   ────────────────────────────────────────────────────────────── */
 
-/* Roman inscriptional capitals for eyebrows, plaques, pedestals. */
-@utility inscription {
-    font-family: var(--font-inscription);
-    font-weight: 500;
-    font-size: 0.8rem;
-    line-height: 1.25;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-fg-2);
+
+/* The same atmosphere and material vocabulary as the planetary hero. */
+.space-backdrop { background: #13111d; }
+.space-journey { position: relative; }
+.space-journey::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 60% 18% at 0% 12%, #f08a7a0b, transparent),
+        radial-gradient(ellipse 65% 22% at 100% 35%, #9b7bff0e, transparent),
+        radial-gradient(ellipse 70% 16% at 30% 65%, #c8dcff08, transparent);
+}
+.space-panel { border: 1px solid var(--color-line); background: #1b1726a3; }
+.space-link { display: inline-flex; align-items: center; gap: .75rem; color: var(--color-fg-2); transition: color .2s; }
+.space-link:hover { color: var(--color-coral); }
+.skip-link { position: fixed; left: 1rem; top: -8rem; z-index: 100; padding: .8rem 1rem; color: #13111d; background: #ffd9b8; }
+.skip-link:focus { top: 1rem; }
+.skip-link:not(:focus) { clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; white-space: nowrap; }
+
+.orbital-planet {
+    --planet-lit: #ffd9b8; --planet-mid: #d27c8a; --planet-dark: #49305e;
+    --planet-glow: #f08a7a; position: relative; width: 100%; aspect-ratio: 1;
+    isolation: isolate; pointer-events: none;
+}
+.orbital-planet--violet { --planet-lit: #e0ccff; --planet-mid: #9b7bff; --planet-dark: #35224d; --planet-glow: #9b7bff; }
+.orbital-planet--moon { --planet-lit: #e5ebff; --planet-mid: #94a7ca; --planet-dark: #2c344b; --planet-glow: #c8dcff; }
+.orbital-planet--gold { --planet-lit: #ffe7d6; --planet-mid: #dfa970; --planet-dark: #63405b; --planet-glow: #ffd9b8; }
+.orbital-planet__halo {
+    position: absolute; inset: -28%; border-radius: 50%; z-index: -2;
+    background: radial-gradient(circle, color-mix(in srgb, var(--planet-glow) 16%, transparent), transparent 68%);
+}
+.orbital-planet__body {
+    position: absolute; inset: 0; overflow: hidden; border-radius: 50%;
+    background: radial-gradient(circle at 28% 23%, var(--planet-lit), var(--planet-mid) 28%, var(--planet-dark) 63%, #15121e 84%);
+    box-shadow: inset -18px -14px 28px #08071199, inset 1px 1px 2px #fff1e647, 0 0 22px color-mix(in srgb, var(--planet-glow) 13%, transparent);
+}
+.orbital-planet__texture {
+    position: absolute; inset: -15%; border-radius: 50%; opacity: .48; mix-blend-mode: soft-light; transform: rotate(-24deg);
+    background: repeating-linear-gradient(8deg, transparent 0 5%, #fff1e65e 6%, transparent 8%, #14101d99 11%, transparent 16%),
+        radial-gradient(ellipse at 35% 45%, #fff1e6 0 4%, transparent 7%), radial-gradient(ellipse at 62% 65%, #13111d 0 6%, transparent 10%);
+}
+.orbital-planet--moon .orbital-planet__texture {
+    background: radial-gradient(circle at 30% 42%, #293445 0 7%, #e5ebff55 8% 9%, transparent 10%),
+        radial-gradient(circle at 60% 23%, #293445 0 4%, #e5ebff55 5%, transparent 6%),
+        radial-gradient(circle at 58% 63%, #293445 0 10%, #e5ebff55 11% 12%, transparent 13%),
+        radial-gradient(circle at 35% 72%, #293445 0 3%, transparent 5%);
+}
+.orbital-planet__ring {
+    position: absolute; width: 178%; height: 43%; left: -39%; top: 29%; border-radius: 50%;
+    transform: rotate(-22deg); border: 3px solid color-mix(in srgb, var(--planet-glow) 55%, transparent);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--planet-glow) 10%, transparent), 0 0 0 9px color-mix(in srgb, var(--planet-glow) 18%, transparent);
+}
+.orbital-planet__ring--back { z-index: -1; }
+.orbital-planet__ring--front { clip-path: inset(50% -20% -20% -20%); }
+
+.journey-nav { position: fixed; top: 50%; right: 1.4rem; z-index: 30; display: flex; flex-direction: column; transform: translateY(-50%); }
+.journey-nav a { display: flex; justify-content: flex-end; align-items: center; min-height: 38px; min-width: 38px; gap: .7rem; }
+.journey-nav__dot { width: 5px; height: 5px; border-radius: 50%; background: #aca3b780; outline: 1px solid transparent; outline-offset: 5px; transition: background .25s, outline .25s; }
+.journey-nav [aria-current] .journey-nav__dot { background: #f08a7a; outline-color: #f08a7a66; }
+.journey-nav__name { font: .65rem var(--font-mono); text-transform: uppercase; letter-spacing: .12em; color: #ffd9b8; opacity: 0; padding: .35rem .5rem; background: #13111dd9; transition: opacity .2s; }
+.journey-nav a:is(:hover, :focus-visible) .journey-nav__name { opacity: 1; }
+.space-footer { position: relative; overflow: hidden; padding: 7rem 2rem 2rem; border-top: 1px solid var(--color-line); }
+.space-footer__links { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2.5rem; }
+.space-footer__links .label { width: 5.3rem; }
+.space-footer__links .space-link { flex-wrap: wrap; }
+.space-footer__planet { width: 170px; position: absolute; right: 6%; top: 12%; opacity: .8; }
+.space-footer__colophon { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--color-line); margin-top: 5rem; padding-top: 1.5rem; font-size: .75rem; color: var(--color-fg-3); }
+@media (max-width: 1279px) { .journey-nav { display: none; } }
+@media (max-width: 767px) {
+    .space-footer { padding: 5rem 1.5rem 2rem; }
+    .space-footer__planet { width: 75px; right: 1%; top: 0; opacity: .5; }
+    .space-footer__colophon { align-items: flex-start; flex-direction: column; margin-top: 3rem; }
+    .space-footer__links .space-link { gap: .6rem; font-size: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; }
+    .orbital-planet, .space-link, .journey-nav__dot, .journey-nav__name { transition: none; }
 }
 
-/* Incised lettering: light edge below, shadow above. */
-@utility engraved {
-    color: color-mix(in oklch, var(--color-fg) 78%, var(--color-bg-1));
-    text-shadow: 0 1px 0 oklch(100% 0 0 / 0.75), 0 -1px 0 oklch(0% 0 0 / 0.28);
+
+/* About: intersecting interests around a physical planetary centre. */
+.about-orbit-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.8rem);
 }
 
-@utility engraved-deep {
-    color: color-mix(in oklch, var(--color-fg) 70%, var(--color-bg-2));
-    text-shadow:
-        0 1px 0 oklch(100% 0 0 / 0.85),
-        0 2px 1px oklch(100% 0 0 / 0.35),
-        0 -1px 0 oklch(0% 0 0 / 0.3),
-        0 -2px 2px oklch(0% 0 0 / 0.12);
+.about-orbit-figure { margin: 0; min-width: 0; }
+.about-orbit-map { position: relative; width: 100%; aspect-ratio: 1; isolation: isolate; }
+.about-orbit-haze {
+    position: absolute;
+    inset: 5%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 48%, rgb(155 123 255 / .13), rgb(240 138 122 / .045) 40%, transparent 69%);
 }
-
-/* Gold leaf lettering. */
-@utility gold {
-    background: linear-gradient(120deg,
-        var(--color-gold-700) 0%,
-        var(--color-gold-500) 30%,
-        oklch(94% 0.06 90) 48%,
-        var(--color-gold-500) 62%,
-        var(--color-gold-700) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-/* Gold leaf surface (pears, rules, caps). */
-@utility gold-leaf {
-    background: linear-gradient(135deg,
-        var(--color-gold-700) 0%,
-        var(--color-gold-500) 35%,
-        oklch(94% 0.06 90) 50%,
-        var(--color-gold-500) 64%,
-        var(--color-gold-700) 100%);
-}
-
-/* Veined marble. Veins come from one 480px SVG tile rasterised once. */
-@utility marble {
-    background-color: var(--color-paper);
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27480%27 height=%27480%27%3E%3Cfilter id=%27v%27 x=%270%27 y=%270%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.0035 0.024%27 numOctaves=%274%27 seed=%273%27 result=%27n%27/%3E%3CfeColorMatrix in=%27n%27 type=%27matrix%27 values=%270 0 0 0 0.46  0 0 0 0 0.43  0 0 0 0 0.40  0 0 0 1 0%27 result=%27g%27/%3E%3CfeComponentTransfer in=%27g%27%3E%3CfeFuncA type=%27table%27 tableValues=%270 0 0 0.55 0.9 0.55 0 0 0%27/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(#v)%27/%3E%3C/svg%3E"),
-        linear-gradient(112deg, transparent 48.6%, oklch(60% 0.01 80 / 0.16) 49.2%, transparent 50.2%),
-        linear-gradient(68deg, transparent 30%, oklch(55% 0.015 85 / 0.13) 30.5%, transparent 31.3%),
-        linear-gradient(150deg, transparent 72%, oklch(62% 0.01 80 / 0.11) 72.5%, transparent 73.6%),
-        linear-gradient(180deg, oklch(98% 0.02 95), oklch(93.5% 0.008 92));
-    background-size: 480px 480px, 900px 900px, 700px 700px, 1100px 1100px, 100% 100%;
-    background-blend-mode: multiply, normal, normal, normal, normal;
-}
-
-@utility marble-dark {
-    background-color: oklch(88% 0.012 88);
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27480%27 height=%27480%27%3E%3Cfilter id=%27v%27 x=%270%27 y=%270%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.0035 0.024%27 numOctaves=%274%27 seed=%273%27 result=%27n%27/%3E%3CfeColorMatrix in=%27n%27 type=%27matrix%27 values=%270 0 0 0 0.46  0 0 0 0 0.43  0 0 0 0 0.40  0 0 0 1 0%27 result=%27g%27/%3E%3CfeComponentTransfer in=%27g%27%3E%3CfeFuncA type=%27table%27 tableValues=%270 0 0 0.55 0.9 0.55 0 0 0%27/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(#v)%27/%3E%3C/svg%3E"),
-        linear-gradient(180deg, oklch(92% 0.012 90), oklch(84% 0.014 85));
-    background-size: 480px 480px, 100% 100%;
-    background-blend-mode: multiply, normal;
-}
-
-/* Paper grain overlay. */
-@utility parchment {
-    position: relative;
-
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-size: 240px 240px;
-        mix-blend-mode: multiply;
-        opacity: 0.12;
-    }
-}
-
-/* Greek key frame via border-image (gold on paper / sky). */
-@utility meander {
-    border: 12px solid transparent;
-    border-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2736%27 height=%2736%27%3E%3Cdefs%3E%3Cpattern id=%27k%27 patternUnits=%27userSpaceOnUse%27 width=%2712%27 height=%2712%27%3E%3Cpath d=%27M1.5 10.5 V1.5 H10.5 V7.5 H5.5 V5.5 H8.5 V3.5 H3.5 V10.5 H10.5%27 fill=%27none%27 stroke=%27#c9a95c%27 stroke-width=%271.4%27 stroke-linejoin=%27miter%27/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%2736%27 height=%2736%27 fill=%27url(#k)%27/%3E%3C/svg%3E") 12 round;
-}
-
-@utility meander-ink {
-    border: 12px solid transparent;
-    border-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2736%27 height=%2736%27%3E%3Cdefs%3E%3Cpattern id=%27k%27 patternUnits=%27userSpaceOnUse%27 width=%2712%27 height=%2712%27%3E%3Cpath d=%27M1.5 10.5 V1.5 H10.5 V7.5 H5.5 V5.5 H8.5 V3.5 H3.5 V10.5 H10.5%27 fill=%27none%27 stroke=%27#2a2620%27 stroke-width=%271.4%27 stroke-linejoin=%27miter%27/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=%2736%27 height=%2736%27 fill=%27url(#k)%27/%3E%3C/svg%3E") 12 round;
-}
-
-/* Brass museum plaque. */
-@utility plaque {
-    position: relative;
-    background: linear-gradient(160deg, oklch(74% 0.09 78) 0%, oklch(60% 0.09 72) 55%, oklch(68% 0.1 75) 100%);
-    box-shadow:
-        inset 0 1px 0 oklch(100% 0 0 / 0.55),
-        inset 0 -2px 4px oklch(0% 0 0 / 0.25),
-        0 14px 34px -18px oklch(30% 0.03 60 / 0.55);
-    outline: 1px solid oklch(45% 0.07 70 / 0.5);
-    outline-offset: -8px;
-}
-
-/* Dot screen that fades at the edges. */
-@utility halftone {
-    background-image: radial-gradient(circle, currentColor 1.2px, transparent 1.45px);
-    background-size: 6px 6px;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 72%);
-    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 72%);
-}
-
-/* Pear tree: gentle sway, running only while the orchard is on screen. */
-@keyframes pear-sway {
-    from { rotate: -2.6deg; }
-    to { rotate: 2.6deg; }
-}
-
-.pear-sway {
-    animation: pear-sway var(--dur, 4s) ease-in-out infinite alternate;
-    animation-delay: var(--delay, 0s);
-    animation-play-state: paused;
-}
-
-.is-live .pear-sway {
-    animation-play-state: running;
-}
-
-.pear-label {
-    visibility: hidden;
+.about-orbit-motion, .about-orbit-paths, .about-interest-orbits { position: absolute; inset: 0; width: 100%; height: 100%; }
+.about-orbit-motion { pointer-events: none; }
+.about-orbit-paths { overflow: visible; }
+.about-orbit-boundary { fill: none; stroke: rgb(200 220 255 / .08); stroke-dasharray: 2 9; }
+.about-orbit-path { fill: none; stroke: rgb(200 220 255 / .16); stroke-width: .8; transition: stroke .35s, stroke-width .35s; }
+.about-orbit-path.is-selected { stroke: rgb(255 217 184 / .63); stroke-width: 1.3; }
+.about-orbit-core { position: absolute; left: 37%; top: 35%; width: 26%; }
+.about-orbit-centre {
+    position: absolute;
+    left: 50%;
+    top: 64%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: #ffd9b8;
+    font-size: clamp(1.12rem, 2vw, 1.5rem);
     pointer-events: none;
 }
+.about-interest-orbits { list-style: none; margin: 0; padding: 0; }
+.about-interest-orbits li { position: absolute; left: var(--orbit-x); top: var(--orbit-y); transform: translate(-50%, -50%); width: 33%; }
+.about-interest {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    min-height: 44px;
+    width: 100%;
+    padding: .45rem .6rem;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: rgb(255 241 230 / .76);
+    background: rgb(19 17 29 / .83);
+    font-family: var(--font-sans);
+    font-size: clamp(.72rem, 1.25vw, .87rem);
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+    transition: color .25s, background .25s, border-color .25s;
+}
+.about-interest.is-selected { color: #fff1e6; border-color: rgb(255 217 184 / .2); background: rgb(44 33 43 / .95); }
+.about-interest:hover { color: #ffd9b8; border-color: rgb(255 217 184 / .28); }
+.about-interest:focus-visible { outline: 2px solid #c8dcff; outline-offset: 4px; }
+.about-interest-dot { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; background: #9b7bff; box-shadow: 0 0 10px rgb(155 123 255 / .4); }
+.about-interest.is-selected .about-interest-dot { background: #ffd9b8; box-shadow: 0 0 12px rgb(255 217 184 / .6); }
+.about-orbit-coordinate { position: absolute; font: .56rem var(--font-mono); letter-spacing: .12em; color: rgb(200 220 255 / .45); }
+.about-orbit-coordinate-top { right: 2%; top: 5%; }
+.about-orbit-coordinate-bottom { left: 4%; bottom: 5%; }
+.about-orbit-caption { display: flex; align-items: center; justify-content: center; gap: .75rem; font: .62rem/1.5 var(--font-mono); letter-spacing: .04em; color: rgb(255 241 230 / .59); }
+.about-orbit-caption-line { width: 28px; height: 1px; background: rgb(240 138 122 / .6); }
+.about-orbit-story { padding-block: 1rem; }
+.about-orbit-location { display: flex; align-items: center; gap: .65rem; margin-bottom: 1.5rem; color: #c8dcff; }
+.about-orbit-location > span:first-child { width: 5px; height: 5px; border-radius: 50%; background: #c8dcff; }
+.about-orbit-year { padding-left: .75rem; margin-left: .1rem; border-left: 1px solid rgb(200 220 255 / .25); color: rgb(255 241 230 / .58); }
+.about-orbit-intro { font-family: var(--font-display); font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.36; color: #fff1e6; }
+.about-orbit-volleyball { margin-top: 1.6rem; font-size: 1rem; line-height: 1.8; color: rgb(255 241 230 / .74); }
+.about-volleyball-link { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.65rem; padding-block: .5rem; font-size: .87rem; }
+.about-volleyball-link svg { width: 22px; height: 22px; flex-shrink: 0; }
+.about-volleyball-link > span:last-child { margin-left: .4rem; }
 
-@media (min-width: 1024px) {
-    .pear-label { visibility: visible; }
+/* Experience: two connected worlds; role details stay in the document. */
+.career-journey-meta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 3.4rem; }
+.career-journey-meta .label { color: #c8dcff; }
+.career-journey-count { font: .66rem/1.5 var(--font-mono); letter-spacing: .06em; color: rgb(255 241 230 / .55); }
+.career-route { --career-gap: 5rem; display: flex; flex-direction: column; gap: var(--career-gap); }
+.career-stop { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: clamp(3rem, 7vw, 7rem); }
+.career-visual { position: relative; text-align: center; }
+.career-connection { position: absolute; left: 50%; top: 90px; width: 130px; height: calc(100% + var(--career-gap)); transform: translateX(-50%); overflow: visible; pointer-events: none; }
+.career-connection path { fill: none; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.career-connection-base { stroke: rgb(200 220 255 / .2); stroke-dasharray: 3 7; }
+.career-connection-lit { stroke: rgb(155 123 255 / .64); }
+.career-planet-button { position: relative; display: grid; place-items: center; width: 180px; height: 180px; margin-inline: auto; border: 0; border-radius: 50%; background: radial-gradient(circle, rgb(155 123 255 / .1), transparent 67%); cursor: pointer; isolation: isolate; }
+.career-planet-button:focus-visible { outline: 2px solid #c8dcff; outline-offset: 6px; }
+.career-planet-orbit { position: absolute; inset: 8px; border: 1px solid rgb(200 220 255 / .15); border-radius: 50%; transition: border-color .3s, box-shadow .3s; }
+.career-planet-orbit::before { content: ''; position: absolute; left: 16%; top: 9%; width: 5px; height: 5px; background: #c8dcff; border-radius: 50%; box-shadow: 0 0 13px rgb(200 220 255 / .45); }
+.career-planet-body { position: relative; display: block; width: 105px; }
+.career-planet-number { position: absolute; right: 5px; bottom: 20px; color: rgb(200 220 255 / .5); font: .58rem var(--font-mono); letter-spacing: .08em; }
+.career-stop.is-active .career-planet-orbit, .career-planet-button:hover .career-planet-orbit { border-color: rgb(255 217 184 / .58); box-shadow: 0 0 34px rgb(155 123 255 / .07); }
+.career-stop.is-active .career-planet-number { color: #ffd9b8; }
+.career-company { position: relative; padding-top: 1.1rem; background: #13111d; }
+.career-company h3 { color: #fff1e6; font-family: var(--font-display); font-size: 2.1rem; line-height: 1.1; }
+.career-company .label { margin-top: .8rem; font-size: .6rem; color: rgb(255 241 230 / .55); }
+.career-role-list { min-width: 0; padding-top: .85rem; }
+.career-role { padding-top: 1.4rem; border-top: 1px solid rgb(200 220 255 / .15); }
+.career-role + .career-role { margin-top: 2rem; }
+.career-role-period { margin-bottom: .75rem; color: #c8dcff; font: .66rem/1.65 var(--font-mono); letter-spacing: .055em; }
+.career-role h4 { margin-bottom: 1rem; color: #fff1e6; font-size: 1.27rem; line-height: 1.35; font-weight: 500; letter-spacing: -.025em; }
+.career-role-description { color: rgb(255 241 230 / .71); font-size: 1rem; line-height: 1.85; }
+
+@media (max-width: 900px) {
+    .about-orbit-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; }
+    .about-interest { font-size: .72rem; padding-inline: .3rem; gap: .35rem; }
+    .about-interest-orbits li { width: 37%; }
+    .career-stop { grid-template-columns: 200px minmax(0, 1fr); gap: 2.8rem; }
 }
 
-.pear:is(:hover, :focus-visible) .pear-label {
-    visibility: visible;
-}
-
-.pear:focus-visible {
-    outline: none;
-}
-
-.pear:focus-visible path {
-    stroke: var(--color-cream);
-    stroke-width: 2.5;
+@media (max-width: 700px) {
+    .about-orbit-layout { display: flex; flex-direction: column; gap: 2rem; }
+    .about-orbit-story { order: -1; padding: 0; }
+    .about-orbit-intro { font-size: clamp(1.7rem, 6.5vw, 2.25rem); }
+    .about-orbit-figure { width: min(100%, 500px); }
+    .about-interest { font-size: clamp(.7rem, 2.7vw, .86rem); padding: .4rem; }
+    .about-interest-orbits li { width: 34%; }
+    .about-orbit-centre { font-size: clamp(1rem, 4vw, 1.4rem); }
+    .career-journey-meta { flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .career-route { --career-gap: 3rem; }
+    .career-stop { position: relative; grid-template-columns: minmax(0, 1fr); gap: 1.65rem; }
+    .career-stop:not(:last-child)::after { content: ''; position: absolute; left: 0; top: 58px; bottom: calc(-1 * var(--career-gap) - 58px); width: 1px; background: linear-gradient(#c8dcff70, #9b7bff50); pointer-events: none; }
+    .career-visual { display: flex; align-items: center; gap: 1.35rem; text-align: left; }
+    .career-visual::before { content: ''; position: absolute; left: 0; top: 58px; width: 58px; height: 1px; background: rgb(200 220 255 / .25); pointer-events: none; }
+    .career-planet-button { width: 116px; height: 116px; flex-shrink: 0; margin: 0; }
+    .career-planet-orbit { inset: 3px; }
+    .career-planet-body { width: 68px; }
+    .career-planet-number { right: 0; bottom: 6px; font-size: .5rem; }
+    .career-company { padding-top: 0; background: transparent; }
+    .career-company h3 { font-size: 1.95rem; }
+    .career-company .label { font-size: .59rem; }
+    .career-connection { display: none; }
+    .career-role-list { padding-top: 0; padding-left: 1.2rem; border-left: 1px solid rgb(200 220 255 / .22); }
+    .career-role h4 { font-size: 1.16rem; }
+    .career-role-description { font-size: .96rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .pear-sway { animation: none; }
+    .about-orbit-motion, .about-orbit-paths, .about-orbit-core, .career-planet-body { transform: none !important; }
+    .about-orbit-path, .about-interest, .career-planet-orbit { transition: none; }
+}
+
+
+/* Skills share the planetary palette. The star map uses semantic HTML labels;
+   SVG lines and coordinate markings are purely decorative. */
+.constellation-section {
+    overflow: hidden;
+}
+
+.constellation-map {
+    position: relative;
+    color: #fff1e6;
+    isolation: isolate;
+}
+
+.constellation-map::before {
+    content: '';
+    position: absolute;
+    inset: 3rem -5% 3rem;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 3% 26%, #fff1e62e 0 1px, transparent 1.5px),
+        radial-gradient(circle at 45% 11%, #fff1e644 0 1px, transparent 1.5px),
+        radial-gradient(circle at 58% 48%, #fff1e640 0 1px, transparent 1.5px),
+        radial-gradient(circle at 92% 83%, #fff1e650 0 1px, transparent 1.5px),
+        radial-gradient(circle at 8% 92%, #c8dcff40 0 1px, transparent 1.5px);
+}
+
+.constellation-map-meta,
+.constellation-region-heading,
+.constellation-map-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.constellation-map-index {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #c9bcc9;
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+    line-height: 1.6;
+}
+
+.constellation-map-beacon {
+    flex: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #f08a7a;
+    box-shadow: 0 0 12px #f08a7a66;
+}
+
+.constellation-reset {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 44px;
+    border: 0;
+    border-bottom: 1px solid #fff1e637;
+    padding: 0.3rem 0;
+    background: transparent;
+    color: #fff1e6;
+    font: 0.75rem/1.3 var(--font-mono);
+    cursor: pointer;
+}
+
+.constellation-reset:hover {
+    border-color: #f08a7a;
+    color: #f08a7a;
+}
+
+.constellation-instructions {
+    max-width: 36rem;
+    margin: 1.15rem 0 2.35rem;
+    color: #c9bcc9;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.constellation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #fff1e622;
+    border-bottom: 1px solid #fff1e622;
+}
+
+.constellation-region {
+    position: relative;
+    min-width: 0;
+    padding: 2rem 1.5rem 1.1rem;
+    transition: opacity 280ms ease;
+}
+
+.constellation-region:nth-child(odd) {
+    border-right: 1px solid #fff1e618;
+    padding-left: 0;
+}
+
+.constellation-region:nth-child(even) {
+    padding-right: 0;
+}
+
+.constellation-region:nth-child(n + 3) {
+    border-top: 1px solid #fff1e618;
+}
+
+.constellation-map[data-has-active='true'] .constellation-region[data-active='false'] {
+    opacity: 0.62;
+}
+
+.constellation-region h3 {
+    margin: 0;
+    min-width: 0;
+}
+
+.constellation-group-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff1e6;
+    font: clamp(1.5rem, 2.4vw, 2rem)/1.1 var(--font-display);
+    cursor: pointer;
+}
+
+.constellation-group-number {
+    align-self: center;
+    color: var(--constellation-color);
+    font: 0.65rem/1 var(--font-mono);
+    letter-spacing: 0.05em;
+}
+
+.constellation-group-arrow {
+    opacity: 0;
+    color: var(--constellation-color);
+    font: 1rem/1 var(--font-sans);
+    transition: opacity 180ms ease;
+}
+
+.constellation-region[data-active='true'] .constellation-group-arrow,
+.constellation-group-button[aria-pressed='true'] .constellation-group-arrow {
+    opacity: 1;
+}
+
+.constellation-coordinate {
+    flex: none;
+    color: #c9bcc9;
+    font: 0.6rem/1.4 var(--font-mono);
+    letter-spacing: 0.09em;
+}
+
+.constellation-plot {
+    position: relative;
+    height: 300px;
+    margin: 1.25rem 0 0;
+    background: radial-gradient(ellipse at 50% 47%, color-mix(in srgb, var(--constellation-color) 5%, transparent), transparent 66%);
+}
+
+.constellation-links,
+.constellation-skills {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.constellation-links {
+    overflow: visible;
+    pointer-events: none;
+    fill: none;
+}
+
+.constellation-orbit-guide {
+    stroke: #fff1e60c;
+    stroke-width: 0.16;
+    stroke-dasharray: 1 2;
+}
+
+.constellation-link-track {
+    stroke: #fff1e615;
+    stroke-width: 1;
+}
+
+.constellation-link-draw {
+    stroke: var(--constellation-color);
+    stroke-width: 1;
+    opacity: 0.36;
+    transition: opacity 250ms ease;
+}
+
+.constellation-region[data-active='true'] .constellation-link-draw {
+    opacity: 0.8;
+}
+
+.constellation-skills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.constellation-skill-position {
+    position: absolute;
+    left: var(--star-x);
+    top: var(--star-y);
+    width: max-content;
+    max-width: 165px;
+    transform: translate(-50%, -5px);
+}
+
+.constellation-skill {
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 165px;
+    padding: 0 3px 4px;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    color: #fff1e6;
+    font: 0.78rem/1.4 var(--font-sans);
+    text-align: center;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.constellation-star {
+    display: block;
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #13111d;
+    border-radius: 50%;
+    background: var(--constellation-color);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--constellation-color) 24%, transparent), 0 0 15px color-mix(in srgb, var(--constellation-color) 18%, transparent);
+    transition: box-shadow 220ms ease, transform 220ms ease;
+}
+
+.constellation-skill-name {
+    margin-top: 9px;
+    padding: 1px 3px;
+    border-radius: 2px;
+    background: #13111de8;
+    overflow-wrap: normal;
+}
+
+.constellation-region[data-active='true'] .constellation-star {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--constellation-color) 40%, transparent), 0 0 19px color-mix(in srgb, var(--constellation-color) 42%, transparent);
+}
+
+.constellation-skill:hover .constellation-star,
+.constellation-skill:focus-visible .constellation-star,
+.constellation-skill[aria-pressed='true'] .constellation-star {
+    transform: scale(1.3);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--constellation-color) 16%, transparent), 0 0 23px color-mix(in srgb, var(--constellation-color) 50%, transparent);
+}
+
+.constellation-skill[aria-pressed='true'] .constellation-skill-name {
+    color: var(--constellation-color);
+}
+
+.constellation-map button:focus-visible {
+    outline: 2px solid #fff1e6;
+    outline-offset: 6px;
+}
+
+.constellation-map-footer {
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-height: 4.5rem;
+    padding-top: 1.3rem;
+}
+
+.constellation-footer-label {
+    color: #c9bcc9;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.constellation-selection {
+    margin: 0;
+    color: #f08a7a;
+    font: 0.65rem/1.6 var(--font-mono);
+    letter-spacing: 0.02em;
+}
+
+@media (min-width: 1100px) {
+    .constellation-region { padding: 2rem 2.5rem 1.25rem; }
+    .constellation-plot { height: 325px; }
+}
+
+@media (min-width: 700px) and (max-width: 900px) {
+    .constellation-coordinate { display: none; }
+    .constellation-skill { max-width: 165px; font-size: 0.71rem; }
+    .constellation-plot { height: 310px; }
+}
+
+@media (max-width: 699px) {
+    .constellation-map-index { max-width: 13rem; font-size: 0.58rem; letter-spacing: 0.08em; }
+    .constellation-reset { font-size: 0.68rem; }
+    .constellation-instructions { margin: 1rem 0 1.5rem; font-size: 0.8rem; }
+    .constellation-grid { grid-template-columns: 1fr; }
+    .constellation-region,
+    .constellation-region:nth-child(odd),
+    .constellation-region:nth-child(even) { padding: 1.45rem 0; border-right: 0; }
+    .constellation-region + .constellation-region { border-top: 1px solid #fff1e618; }
+    .constellation-group-button { gap: 0.65rem; font-size: 1.65rem; }
+    .constellation-plot { height: auto; margin: 1.05rem 0 0; background: none; transform: none !important; }
+    .constellation-links { display: none; }
+    .constellation-skills { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; height: auto; }
+    .constellation-skill-position { position: relative; top: auto; left: auto; width: auto; max-width: none; transform: none; }
+    .constellation-skill-position::before { content: ''; position: absolute; top: -1px; bottom: 0; left: 4px; border-left: 1px solid color-mix(in srgb, var(--constellation-color) 22%, transparent); pointer-events: none; }
+    .constellation-skill-position:nth-child(-n + 2)::before { top: 50%; }
+    .constellation-skill-position:nth-last-child(-n + 2)::before { bottom: 50%; }
+    .constellation-skill { flex-direction: row; align-items: center; gap: 0.6rem; max-width: none; width: 100%; min-height: 46px; padding: 5px 0; font-size: 0.78rem; text-align: left; }
+    .constellation-star { width: 9px; height: 9px; }
+    .constellation-skill-name { margin-top: 0; padding: 3px 0; background: #13111d; }
+    .constellation-map-footer { gap: 0.75rem; min-height: 5.5rem; }
+    .constellation-footer-label { max-width: 18rem; font-size: 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .constellation-region,
+    .constellation-group-arrow,
+    .constellation-link-draw,
+    .constellation-star { transition: none; }
+    .constellation-plot { transform: none !important; }
+    .constellation-skill:hover .constellation-star,
+    .constellation-skill:focus-visible .constellation-star,
+    .constellation-skill[aria-pressed='true'] .constellation-star { transform: none; }
+}
+
+@media (max-width: 360px) {
+    .constellation-skills { grid-template-columns: 1fr; }
+    .constellation-skill-position::before { top: 0; bottom: 0; }
+    .constellation-skill-position:first-child::before { top: 50%; }
+    .constellation-skill-position:last-child::before { bottom: 50%; }
+}
+
+
+/* Projects: a full-width flight path, followed by editorial project information. */
+.project-section { position: relative; padding-top: clamp(5rem, 9vw, 9rem); scroll-margin-top: 2rem; }
+.project-section-heading { max-width: 72rem; margin-inline: auto; padding-inline: 2rem; }
+.project-entry { min-width: 0; color: #fff1e6; }
+.project-world { position: relative; isolation: isolate; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border-top: 1px solid rgb(255 217 184 / .17); border-bottom: 1px solid rgb(255 217 184 / .13); background: radial-gradient(ellipse at 52% 55%, rgb(155 123 255 / .12), transparent 69%), #171420; }
+.project-world::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, #13111d 0%, transparent 20%, transparent 84%, rgb(19 17 29 / .4)); }
+.project-world-stars { position: absolute; inset: 0; opacity: .65; background-image: radial-gradient(circle at 8% 32%, #ffd9b8 0 1px, transparent 1.5px), radial-gradient(circle at 77% 24%, #c8dcff 0 1px, transparent 1.5px), radial-gradient(circle at 63% 79%, #ffd9b8 0 .6px, transparent 1px), radial-gradient(circle at 89% 58%, #c8dcff 0 .8px, transparent 1.2px), radial-gradient(circle at 27% 19%, #c8dcff 0 .8px, transparent 1.2px), radial-gradient(circle at 14% 72%, #ffd9b8 0 .8px, transparent 1.2px); }
+.project-world-planet { position: absolute; width: 34%; left: 34%; top: 24%; filter: drop-shadow(0 12px 30px rgb(0 0 0 / .25)); }
+.project-world--graph .project-world-planet { width: 25%; left: 37%; top: 31%; opacity: .65; }
+.project-world--flight .project-world-planet { width: 33%; left: 41%; top: 24%; }
+.project-world--quiz .project-world-planet { width: 26%; left: 37%; top: 30%; }
+.project-world--stats .project-world-planet { width: 35%; left: 27%; top: 19%; opacity: .7; }
+.project-world-map { position: absolute; inset: 0; width: 100%; height: 100%; color: rgb(255 217 184 / .44); }
+.project-world--graph .project-world-map, .project-world--quiz .project-world-map { color: rgb(200 220 255 / .5); }
+.world-node { fill: #ffd9b8; stroke: #ffd9b8; }
+.world-node-halo { opacity: .25; }
+.world-signal { stroke: #f08a7a; stroke-width: 1.5; }
+.world-ball { fill: #f1e6d9; stroke: #fff1e6; }
+.world-progress-arc { stroke: #9b7bff; stroke-width: 3; }
+.world-check-circle { fill: #231d38; stroke: #9b7bff; }
+.world-check { stroke: #ffd9b8; stroke-width: 1.5; }
+.world-stat-bars { opacity: .45; }
+.project-world-label, .project-world-coordinate { position: absolute; z-index: 1; bottom: 1.1rem; font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .58rem; color: #c7becf; letter-spacing: .13em; }
+.project-world-label { left: 1.1rem; }
+.project-world-coordinate { right: 1.1rem; }
+.project-entry-content { padding-top: 1.5rem; }
+.project-entry-meta { display: flex; flex-wrap: wrap; gap: .4rem 1rem; color: #c8bdcf; font-size: .62rem; line-height: 1.7; }
+.project-entry-meta span:first-child { color: #f08a7a; }
+.project-entry-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: .7rem; }
+.project-entry-title-row h3 { font-family: var(--font-display, 'Instrument Serif', serif); font-size: clamp(2.7rem, 4.7vw, 4.3rem); font-weight: 400; line-height: 1.05; letter-spacing: -.035em; }
+.project-entry-number { font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .7rem; color: #9b8fac; }
+.project-entry-description { color: #c8becd; margin-top: .9rem; max-width: 47ch; font-size: .95rem; line-height: 1.65; }
+.project-entry-stack { display: flex; flex-wrap: wrap; gap: .35rem 0; margin-top: .95rem; padding: 0; list-style: none; color: #aaa0b6; font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .61rem; line-height: 1.7; }
+.project-entry-stack li + li::before { content: '·'; color: #f08a7a; margin-inline: .65rem; }
+.project-entry-link { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.3rem; color: #ffd9b8; font-size: .8rem; line-height: 1.5; }
+.project-entry-link svg { width: 1rem; height: 1rem; transition: transform 180ms ease; }
+.project-entry-link:hover svg { transform: translate(2px, -2px); }
+/* Native sideways travel: content remains in normal document flow. */
+.project-entry-link:focus-visible, .project-gallery-buttons button:focus-visible { outline: 2px solid #ffd9b8; outline-offset: 6px; }
+.project-gallery-native { --gallery-gutter: clamp(1.5rem, 6vw, 6.5rem); position: relative; isolation: isolate; overflow: clip; padding-bottom: clamp(3rem, 6vw, 5rem); }
+.project-gallery-frame { position: absolute; inset: 0 0 3rem; z-index: -1; pointer-events: none; border-top: 1px solid rgb(255 217 184 / .1); background: radial-gradient(ellipse at 70% 25%, rgb(155 123 255 / .06), transparent 65%); }
+.project-rail { display: flex; align-items: flex-start; gap: clamp(1.5rem, 3vw, 3rem); width: 100%; padding: 1.5rem var(--gallery-gutter) 1.4rem; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; scroll-padding-inline: var(--gallery-gutter); overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #9b7bff55 #ffd9b80b; }
+.project-rail::-webkit-scrollbar { height: 4px; }
+.project-rail::-webkit-scrollbar-track { background: #ffd9b80b; }
+.project-rail::-webkit-scrollbar-thumb { background: #9b7bff55; border-radius: 2px; }
+.project-rail:focus-visible { outline: 1px solid #c8dcff; outline-offset: -5px; }
+.project-rail-card { flex: 0 0 min(64%, 44rem); min-width: 0; scroll-snap-align: center; }
+.project-rail-card .project-entry { width: 100%; }
+.project-rail-card .project-world { aspect-ratio: 1.65; }
+.project-rail-card .project-entry-title-row h3 { font-size: clamp(2.5rem, 4vw, 3.8rem); }
+.project-gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; max-width: 85rem; margin-inline: auto; padding: 1.25rem var(--gallery-gutter) .7rem; }
+.project-gallery-controls[hidden] { display: none; }
+.project-gallery-position { display: flex; align-items: center; gap: .85rem; font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .66rem; color: #aaa0b6; }
+.project-gallery-current { color: #ffd9b8; }
+.project-gallery-progress { display: block; width: clamp(4rem, 12vw, 10rem); height: 1px; background: rgb(255 217 184 / .15); }
+.project-gallery-progress > span { display: block; width: 100%; height: 100%; background: #f08a7a; transform-origin: left; }
+.project-gallery-buttons { display: flex; gap: .65rem; }
+.project-gallery-buttons[hidden], .project-gallery-progress[hidden] { display: none; }
+.project-gallery-buttons button { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(255 217 184 / .24); border-radius: 50%; color: #ffd9b8; font-size: 1.1rem; background: transparent; cursor: pointer; transition: border-color 180ms ease, background 180ms ease; }
+.project-gallery-buttons button:hover:not(:disabled) { border-color: #f08a7a; background: rgb(240 138 122 / .08); }
+.project-gallery-buttons button:disabled { color: #756c82; opacity: .45; cursor: default; }
+.project-gallery-hint { padding-inline: var(--gallery-gutter); color: #aaa0b6; font: .65rem/1.6 var(--font-mono, 'Geist Mono', monospace); }
+.project-gallery-empty { max-width: 72rem; margin-inline: auto; padding: 2rem var(--gallery-gutter); color: #c8becd; }
+
+/* Position, entrance, drift, and hover each own a separate element. */
+.about-orbit-ring-arrival { position: absolute; inset: 0; pointer-events: none; }
+.about-planet-arrival, .career-planet-arrival { display: block; width: 100%; }
+.about-orbit-copy, .career-company-copy, .career-role-copy { display: block; }
+.constellation-star-entrance { display: block; flex: none; width: 10px; height: 10px; transform-origin: center; }
+
+@media (max-width: 700px) {
+    .constellation-star-entrance { width: 9px; height: 9px; }
+    .career-stop:not(:last-child)::after { transform-origin: top; transform: scaleY(0); transition: transform .65s cubic-bezier(.16, 1, .3, 1); }
+    .career-stop[data-next-arrival='arriving']::after, .career-stop[data-next-arrival='settled']::after { transform: scaleY(1); }
+    .career-stop[data-next-arrival='settled']::after { transition: none; }
+}
+@media (max-width: 600px) {
+    .project-section-heading { padding-inline: 1.5rem; }
+    .project-rail-card { flex-basis: 86%; }
+    .project-entry-meta { font-size: .58rem; }
+    .project-world-label, .project-world-coordinate { font-size: .49rem; bottom: .8rem; }
+    .project-gallery-controls { gap: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .project-entry-link svg, .project-gallery-buttons button, .career-stop::after { transition: none; }
+    .project-entry-link:hover svg { transform: none; }
 }
