@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import { EASE } from '../motion/presets'
 
 /**
@@ -8,14 +9,16 @@ import { EASE } from '../motion/presets'
  */
 const RotatingWord = ({ words, interval = 2600, className = '' }) => {
     const [i, setI] = useState(0)
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)')
 
     useEffect(() => {
+        if (reduced) return
         const t = setInterval(() => setI((n) => (n + 1) % words.length), interval)
         return () => clearInterval(t)
-    }, [words.length, interval])
+    }, [words.length, interval, reduced])
 
     return (
-        <span className={`relative inline-grid justify-items-start ${className}`} aria-live="polite">
+        <span className={`relative inline-grid justify-items-start ${className}`} role="text" aria-label={words.join(", ")}>
             {words.map((w) => (
                 <span key={w} aria-hidden="true" className="invisible [grid-area:1/1] whitespace-nowrap">
                     {w}
@@ -23,9 +26,10 @@ const RotatingWord = ({ words, interval = 2600, className = '' }) => {
             ))}
             <AnimatePresence mode="wait" initial={false}>
                 <motion.span
+                    aria-hidden="true"
                     key={words[i]}
                     className="[grid-area:1/1] whitespace-nowrap will-change-transform"
-                    initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
+                    initial={reduced ? false : { opacity: 0, y: 14, filter: 'blur(8px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: -14, filter: 'blur(8px)' }}
                     transition={{ duration: 0.45, ease: EASE }}

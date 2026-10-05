@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue, useSpring } from 'motion/react'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import { SPRING } from '../motion/presets'
 
 const SIZE = { default: 28, link: 44, drag: 72, hidden: 0 }
@@ -10,7 +11,9 @@ const SIZE = { default: 28, link: 44, drag: 72, hidden: 0 }
  * Mounted only for fine pointers without reduced-motion.
  */
 const Cursor = () => {
-    const [enabled, setEnabled] = useState(false)
+    const fine = useMediaQuery('(pointer: fine)')
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)')
+    const enabled = fine && !reduced
     const [variant, setVariant] = useState('default')
     const [visible, setVisible] = useState(false)
     const variantRef = useRef('default')
@@ -20,11 +23,7 @@ const Cursor = () => {
     const ry = useSpring(y, { stiffness: 260, damping: 24, mass: 0.5 })
 
     useEffect(() => {
-        const ok =
-            window.matchMedia('(pointer: fine)').matches &&
-            !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        if (!ok) return
-        setEnabled(true)
+        if (!enabled) return
         document.documentElement.classList.add('has-cursor')
 
         const resolve = (target) => {
@@ -56,7 +55,7 @@ const Cursor = () => {
             document.documentElement.removeEventListener('mouseleave', onLeave)
             document.documentElement.classList.remove('has-cursor')
         }
-    }, [x, y])
+    }, [x, y, enabled])
 
     if (!enabled) return null
     const size = SIZE[variant] ?? SIZE.default

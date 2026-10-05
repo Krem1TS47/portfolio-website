@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useRef } from 'react'
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
 import Section from '../components/Section'
 import HeroTitle from '../components/HeroTitle'
 import RotatingWord from '../components/RotatingWord'
@@ -7,8 +7,7 @@ import { EASE } from '../motion/presets'
 import PlanetPoster from '../components/PlanetPoster'
 import SceneErrorBoundary from '../components/SceneErrorBoundary'
 import { useWebGL } from '../three/useWebGL'
-import { useDawn } from '../hooks/useDawn'
-import { dawn } from '../motion/dawn'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 const PlanetScene = lazy(() => import('../three/PlanetScene'))
 
@@ -27,7 +26,7 @@ const GLOW =
 
 const Home = () => {
     const heroRef = useRef(null)
-    const reducedMotion = useReducedMotion()
+    const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
     const webgl = useWebGL()
     const showScene = webgl && !reducedMotion
 
@@ -39,7 +38,6 @@ const Home = () => {
 
     // 0 → 1 as the hero scrolls out of view.
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
-    useDawn(scrollYProgress)
     const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
     const textY = useTransform(scrollYProgress, [0, 1], [0, -80])
     const hintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
@@ -83,16 +81,10 @@ const Home = () => {
                             aria-hidden="true"
                             className="absolute inset-x-0 bottom-0 h-48 pointer-events-none bg-linear-to-t from-bg-0 to-transparent"
                         />
-                        {/* Sunrise: warms the night→sky seam as the garden dawns */}
-                        <motion.div
-                            aria-hidden="true"
-                            style={{ opacity: dawn }}
-                            className="absolute inset-x-0 bottom-0 h-72 pointer-events-none mix-blend-screen bg-[linear-gradient(180deg,transparent_0%,oklch(38%_0.12_255_/_0.55)_45%,oklch(72%_0.09_85_/_0.55)_100%)]"
-                        />
                     </>
                 }
             >
-                <motion.div style={{ opacity: textOpacity, y: textY }} className="md:max-w-[55%]">
+                <motion.div style={{ opacity: reducedMotion ? 1 : textOpacity, y: reducedMotion ? 0 : textY }} className="md:max-w-[55%]">
                     <motion.p
                         className="label mb-6 flex items-center gap-3"
                         initial={{ opacity: 0, y: 8 }}
@@ -105,7 +97,7 @@ const Home = () => {
                     </motion.p>
                     <HeroTitle className="font-display text-display text-fg" />
                     <motion.div
-                        className="mt-6 text-xl md:text-2xl text-fg-2 min-h-[2rem] flex items-center gap-3"
+                        className="mt-6 text-lg md:text-2xl text-fg-2 min-h-[2rem] flex flex-wrap items-center gap-x-3 gap-y-1"
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: EASE, delay: 0.9 }}
@@ -116,7 +108,7 @@ const Home = () => {
                 </motion.div>
 
                 <motion.div
-                    style={{ opacity: hintOpacity }}
+                    style={{ opacity: reducedMotion ? 1 : hintOpacity }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 1.6 }}

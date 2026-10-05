@@ -1,15 +1,18 @@
-import { useState } from 'react'
 import { ReactLenis } from 'lenis/react'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
-const prefersReducedMotion = () =>
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// The rail adapter consumes only non-zoom Shift-wheel. Keep this predicate stable
+// so the document engine never captures a render-specific gallery closure.
+const allowDocumentWheel = ({ event }) => !(
+    event.type === 'wheel' && event.shiftKey && !event.ctrlKey &&
+    event.composedPath().some((node) => node instanceof HTMLElement && node.hasAttribute('data-project-rail'))
+)
 
-/** Lenis inertial scrolling, skipped entirely for reduced-motion users. */
+/** One document provider; native horizontal rails handle their own gestures. */
 const SmoothScroll = ({ children }) => {
-    const [reduced] = useState(prefersReducedMotion)
-    if (reduced) return children
+    const reduced = useMediaQuery('(prefers-reduced-motion: reduce)')
     return (
-        <ReactLenis root options={{ lerp: 0.1, smoothWheel: true, anchors: false }}>
+        <ReactLenis root options={{ lerp: 0.1, smoothWheel: !reduced, anchors: false, virtualScroll: allowDocumentWheel }}>
             {children}
         </ReactLenis>
     )

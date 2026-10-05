@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planetary portfolio — motion storyboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f5f5;
+      --ink: #242424;
+      --muted: #686868;
+      --line: #b8b8b8;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 15px/1.5 system-ui, -apple-system, sans-serif; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:focus-visible, .gallery-rail:focus-visible { outline: 2px solid #333; outline-offset: 4px; }
+    button:disabled { cursor: default; opacity: .38; }
+    h1, h2, h3, p, figure { margin: 0; }
+    h1 { font-size: clamp(23px, 4vw, 36px); font-weight: 550; letter-spacing: -.03em; line-height: 1.16; }
+    h2 { font-size: 20px; font-weight: 550; letter-spacing: -.025em; }
+    h3 { font-size: 15px; font-weight: 600; }
+    .page { width: min(1120px, calc(100% - 40px)); margin: 40px auto 80px; }
+    .eyebrow { margin-bottom: 10px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .intro { max-width: 740px; margin-top: 15px; color: var(--muted); }
+    .scope-note { margin-top: 9px; font-size: 12px; color: var(--muted); }
+    .toolbar { position: sticky; top: 10px; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 25px 0; padding: 10px; border: 1px solid var(--line); background: #fafafafa; }
+    .toolbar button, .gallery-controls button { min-height: 40px; padding: 7px 13px; border: 1px solid var(--line); background: white; }
+    .toolbar button[aria-pressed="true"] { background: #333; border-color: #333; color: white; }
+    .toolbar-status { margin-left: auto; color: var(--muted); font-size: 11px; }
+    .panel { margin-top: 24px; padding: 25px; border: 1px solid var(--line); background: white; scroll-margin-top: 100px; }
+    .panel-header { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; padding-bottom: 18px; border-bottom: 1px solid #dedede; }
+    .panel-header p { color: var(--muted); font-size: 11px; text-align: right; }
+    .scene-description { margin-top: 18px; color: var(--muted); font-size: 12px; }
+    .arrival-scenes { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding-top: 24px; }
+    .scene { min-width: 0; }
+    .scene + .scene { border-left: 1px solid #dedede; padding-left: 30px; }
+    .scene-label { margin-bottom: 12px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .about-stage { display: grid; grid-template-columns: minmax(150px, .9fr) minmax(0, 1fr); align-items: center; gap: 16px; min-height: 235px; }
+    .about-orbit { position: relative; width: 100%; aspect-ratio: 1; max-width: 220px; margin: auto; }
+    .about-orbit svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .about-orbit ellipse { fill: none; stroke: #999; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .planet-wrap { position: absolute; width: 42%; left: 29%; top: 29%; }
+    /* The artwork is a wireframe stand-in. It demonstrates motion, not a new palette. */
+    .planet { position: relative; width: 100%; aspect-ratio: 1; border: 1px solid #666; border-radius: 50%; background: repeating-linear-gradient(32deg, #eee 0 9px, #e5e5e5 9px 10px); }
+    .planet::after { content: ''; position: absolute; inset: 17% 30%; border-left: 1px solid #999; border-right: 1px solid #999; border-radius: 50%; transform: rotate(-20deg); }
+    .planet::before { content: ''; position: absolute; left: -32%; top: 37%; width: 164%; height: 26%; border: 1px solid #666; border-radius: 50%; transform: rotate(-17deg); }
+    .orbit-label { position: absolute; left: 50%; bottom: 2%; transform: translateX(-50%); white-space: nowrap; font-size: 10px; color: var(--muted); }
+    .biography h3 { margin-bottom: 10px; font-size: 25px; font-weight: 500; }
+    .biography p { font-size: 13px; }
+    .biography .location { margin-top: 13px; font-size: 11px; color: var(--muted); }
+    .experience-stage { position: relative; min-height: 235px; }
+    .career-path { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .career-path path { fill: none; stroke: #999; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .career-path .base-path { stroke-dasharray: 4 5; opacity: .4; }
+    .career-path .draw-path { stroke: #555; }
+    .employer { position: absolute; display: flex; gap: 15px; align-items: center; width: 83%; }
+    .employer-first { top: 12px; left: 1%; }
+    .employer-second { bottom: 9px; left: 15%; }
+    .employer-planet { width: 68px; flex-shrink: 0; }
+    .employer-second .planet::before { display: none; }
+    .employer-copy { position: relative; padding: 4px; background: white; }
+    .employer-copy p { margin-top: 5px; font-size: 12px; color: var(--muted); }
+    .constellation-stage { position: relative; height: 330px; margin: 20px auto 0; max-width: 880px; overflow: hidden; }
+    .constellation-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .constellation-stage path { fill: none; stroke: #aaa; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .constellation-centre { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; background: white; padding: 10px; }
+    .constellation-centre .centre-cross { display: block; font-size: 23px; font-weight: 300; }
+    .constellation-centre p { font-size: 10px; color: var(--muted); }
+    .skill-node { position: absolute; left: var(--x); top: var(--y); }
+    .skill-star { position: absolute; width: 8px; height: 8px; border: 1px solid #333; background: white; transform-origin: center; }
+    .skill-star::before, .skill-star::after { content: ''; position: absolute; background: #777; }
+    .skill-star::before { width: 14px; height: 1px; top: 3px; left: -4px; }
+    .skill-star::after { width: 1px; height: 14px; left: 3px; top: -4px; }
+    /* Labels stay in place. Decorative stars settle outward from a short inward offset. */
+    .skill-label { position: absolute; left: 18px; top: -7px; white-space: nowrap; color: #444; font-size: 12px; }
+    .skill-node.right .skill-label { left: auto; right: 13px; }
+    .gallery-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; margin-top: 20px; }
+    .gallery-head p { font-size: 12px; color: var(--muted); }
+    .gallery-controls { display: flex; align-items: center; gap: 8px; }
+    .gallery-counter { width: 58px; text-align: center; font-variant-numeric: tabular-nums; font-size: 12px; }
+    /* Native overflow at every width. No wheel interception, pinning, or vertical-to-horizontal conversion. */
+    .gallery-rail { --card-width: min(64%, 44rem); display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; overscroll-behavior-x: contain; margin-top: 22px; padding: 6px 3px 16px; scrollbar-width: thin; scrollbar-color: #999 #eee; touch-action: pan-x pan-y; }
+    .project-card { flex: 0 0 var(--card-width); min-width: 0; min-height: 238px; border: 1px solid #aaa; scroll-snap-align: start; scroll-snap-stop: normal; padding: 20px; position: relative; }
+    .project-number { color: var(--muted); font-size: 10px; letter-spacing: .09em; }
+    .project-planet { width: 90px; margin: 24px auto 26px; }
+    .project-card h3 { font-size: 23px; font-weight: 500; }
+    .project-card p { margin-top: 6px; color: var(--muted); font-size: 11px; }
+    .project-card:nth-child(even) .planet::before { display: none; }
+    .gallery-end-space { flex: 0 0 max(0px, calc(100% - var(--card-width) - 18px)); pointer-events: none; }
+    .rail-note { margin-top: 8px; font-size: 11px; color: var(--muted); }
+    .motion-enabled .panel:not(.is-entered) .actor { opacity: 0; }
+    .motion-enabled .panel:not(.is-entered) .draw-path { stroke-dashoffset: 1; }
+    .motion-enabled .project-card:not(.card-entered) .project-planet { opacity: 0; }
+    .is-entered .arc-rise { animation: arc-rise 950ms var(--ease) both; }
+    .is-entered .biography { animation: slide-right 800ms var(--ease) 130ms both; }
+    .is-entered .orbit-rings { animation: expand-orbit 1000ms var(--ease) 60ms both; }
+    .is-entered .employer-first .employer-planet { animation: diagonal-first 950ms var(--ease) 80ms both; }
+    .is-entered .employer-second .employer-planet { animation: diagonal-second 950ms var(--ease) 250ms both; }
+    .is-entered .employer-copy { animation: slide-right 800ms var(--ease) 210ms both; }
+    .is-entered .draw-path { animation: draw-route 1100ms var(--ease) 120ms both; }
+    .draw-path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+    .is-entered .skill-star { animation: assemble-star 950ms var(--ease) var(--delay, 0ms) both; }
+    .project-card.card-entered .project-planet { animation: small-rise 850ms var(--ease) 80ms both; }
+    @keyframes arc-rise {
+      0% { opacity: 0; transform: translate(-25px, 47px) rotate(-8deg) scale(.72); }
+      72% { opacity: 1; transform: translate(5px, -4px) rotate(1deg) scale(1.02); }
+      100% { opacity: 1; transform: none; }
+    }
+    @keyframes slide-right { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: none; } }
+    @keyframes expand-orbit { from { opacity: .15; transform: scale(.84) rotate(-6deg); } to { opacity: 1; transform: none; } }
+    @keyframes diagonal-first { from { opacity: 0; transform: translate(-30px, 35px) scale(.78); } to { opacity: 1; transform: none; } }
+    @keyframes diagonal-second { from { opacity: 0; transform: translate(28px, 35px) scale(.78); } to { opacity: 1; transform: none; } }
+    @keyframes draw-route { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+    @keyframes assemble-star { from { opacity: 0; transform: translate(var(--assemble-x), var(--assemble-y)) scale(.25); } to { opacity: 1; transform: none; } }
+    @keyframes narrow-star { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: none; } }
+    @keyframes small-rise { from { opacity: 0; transform: translateY(30px) scale(.8); } to { opacity: 1; transform: none; } }
+    .settled .actor, .reduced-motion .actor { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .settled .draw-path, .reduced-motion .draw-path { animation: none !important; stroke-dashoffset: 0 !important; }
+    .reduced-motion .gallery-rail { scroll-behavior: auto; }
+    @media (max-width: 760px) {
+      .page { width: calc(100% - 28px); margin-top: 26px; }
+      .panel { padding: 18px; }
+      .panel-header { align-items: start; }
+      .panel-header p { max-width: 135px; }
+      .arrival-scenes { grid-template-columns: 1fr; gap: 25px; }
+      .scene + .scene { padding-left: 0; border-left: 0; padding-top: 22px; border-top: 1px solid #dedede; }
+      .about-stage { min-height: 190px; grid-template-columns: minmax(120px, .85fr) minmax(0, 1fr); }
+      .experience-stage { min-height: 220px; }
+      .constellation-stage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; height: auto; padding: 15px 4px 8px; overflow: visible; }
+      .constellation-stage > svg, .constellation-centre { display: none; }
+      .skill-node { position: static; display: flex; align-items: center; gap: 14px; min-height: 44px; padding-block: 8px; border-bottom: 1px solid #e5e5e5; }
+      .skill-star { position: relative; flex-shrink: 0; }
+      .skill-label, .skill-node.right .skill-label { position: static; font-size: 12px; white-space: normal; }
+      .is-entered .skill-star { animation-name: narrow-star; animation-duration: 450ms; }
+      .toolbar-status { width: 100%; margin-left: 3px; }
+      .gallery-rail { --card-width: 86%; }
+      .project-card { min-height: 232px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .actor { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .draw-path { animation: none !important; stroke-dashoffset: 0 !important; }
+      .gallery-rail { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">Rough motion storyboard · cinematic orbits</p>
+      <h1>A shared entrance rhythm,<br>three different movements.</h1>
+      <p class="intro">Scroll to see each entrance once. About rises along an arc; employers arrive diagonally; stars assemble outward. The project gallery travels sideways through native scrolling.</p>
+      <p class="scope-note">Sample copy only. The full biography, experience descriptions, skill inventory and project details remain outside this reduced sketch; production content and color grading are unchanged.</p>
+    </header>
+
+    <div class="toolbar" aria-label="Motion preview controls">
+      <button id="replay" type="button">Replay entrances</button>
+      <button id="settle" type="button">Show settled</button>
+      <button id="reduce" type="button" aria-pressed="false">Reduce motion</button>
+      <p class="toolbar-status" id="motion-status" role="status">Entrances play once per panel</p>
+    </div>
+
+    <section class="panel" data-panel="arrival" aria-labelledby="arrival-heading">
+      <div class="panel-header">
+        <h2 id="arrival-heading">01 · Planetary arrivals</h2>
+        <p>Arc-rise → opposing slide → linked diagonal arrivals</p>
+      </div>
+      <div class="arrival-scenes">
+        <div class="scene">
+          <p class="scene-label">About</p>
+          <div class="about-stage">
+            <figure class="about-orbit" aria-label="Planet rises along an arc; biography enters from the right">
+              <svg class="orbit-rings actor" viewBox="0 0 200 200" aria-hidden="true">
+                <ellipse cx="100" cy="100" rx="90" ry="47" transform="rotate(-32 100 100)" />
+                <ellipse cx="100" cy="100" rx="87" ry="44" transform="rotate(40 100 100)" />
+              </svg>
+              <div class="planet-wrap arc-rise actor" aria-hidden="true"><div class="planet"></div></div>
+              <figcaption class="orbit-label">A curious mind</figcaption>
+            </figure>
+            <div class="biography actor">
+              <h3>Ben</h3>
+              <p>Honours CS student at UBC.</p>
+              <p class="location">Vancouver, BC</p>
+            </div>
+          </div>
+        </div>
+        <div class="scene">
+          <p class="scene-label">Experience</p>
+          <div class="experience-stage">
+            <svg class="career-path" viewBox="0 0 400 235" preserveAspectRatio="none" aria-hidden="true">
+              <path class="base-path" d="M35,45 C10,100 130,130 100,190" />
+              <path class="draw-path" pathLength="1" d="M35,45 C10,100 130,130 100,190" />
+            </svg>
+            <div class="employer employer-first">
+              <div class="employer-planet actor" aria-hidden="true"><div class="planet"></div></div>
+              <div class="employer-copy actor"><h3>Samsung R&amp;D</h3><p>Data Engineer Co-op</p></div>
+            </div>
+            <div class="employer employer-second">
+              <div class="employer-planet actor" aria-hidden="true"><div class="planet"></div></div>
+              <div class="employer-copy actor"><h3>Wistron</h3><p>Data Analytics Intern<br>Systems Development Intern</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="scene-description">The planets share one soft settling rhythm. Text slides separately so artwork and information do not move as one block.</p>
+    </section>
+
+    <section class="panel" data-panel="skills" aria-labelledby="skills-heading">
+      <div class="panel-header">
+        <h2 id="skills-heading">02 · Constellation assembly</h2>
+        <p>Stars move outward; labels stay readable</p>
+      </div>
+      <div class="constellation-stage" id="constellation" aria-label="Sample skills constellation">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draw-path" pathLength="1" d="M50 50 L16 20 M50 50 L68 15 M50 50 L87 48 M50 50 L68 83 M50 50 L26 78 M50 50 L11 53" />
+        </svg>
+        <div class="constellation-centre" aria-hidden="true"><span class="centre-cross">+</span><p>Shared interests</p></div>
+        <div class="skill-node" style="--x:16%;--y:20%" data-x="16" data-y="20"><span class="skill-star actor" style="--delay:40ms" aria-hidden="true"></span><span class="skill-label">SQL</span></div>
+        <div class="skill-node right" style="--x:68%;--y:15%" data-x="68" data-y="15"><span class="skill-star actor" style="--delay:100ms" aria-hidden="true"></span><span class="skill-label">Python</span></div>
+        <div class="skill-node right" style="--x:87%;--y:48%" data-x="87" data-y="48"><span class="skill-star actor" style="--delay:160ms" aria-hidden="true"></span><span class="skill-label">React</span></div>
+        <div class="skill-node right" style="--x:68%;--y:83%" data-x="68" data-y="83"><span class="skill-star actor" style="--delay:220ms" aria-hidden="true"></span><span class="skill-label">Pandas</span></div>
+        <div class="skill-node" style="--x:26%;--y:78%" data-x="26" data-y="78"><span class="skill-star actor" style="--delay:280ms" aria-hidden="true"></span><span class="skill-label">TypeScript</span></div>
+        <div class="skill-node" style="--x:11%;--y:53%" data-x="11" data-y="53"><span class="skill-star actor" style="--delay:340ms" aria-hidden="true"></span><span class="skill-label">PostgreSQL</span></div>
+      </div>
+      <p class="scene-description">This panel previews assembly timing with six sample labels. The production constellation retains its complete skill inventory and interactions.</p>
+    </section>
+
+    <section class="panel" data-panel="gallery" aria-labelledby="gallery-heading">
+      <div class="panel-header">
+        <h2 id="gallery-heading">03 · Native sideways project rail</h2>
+        <p>Swipe, trackpad, arrows or keyboard</p>
+      </div>
+      <div class="gallery-head">
+        <p>Next-card peek makes the sideways direction visible.</p>
+        <div class="gallery-controls" aria-label="Project gallery controls">
+          <button type="button" id="previous" aria-label="Previous project">← Previous</button>
+          <output class="gallery-counter" id="gallery-counter" aria-live="polite" aria-atomic="true">01 / 05</output>
+          <button type="button" id="next" aria-label="Next project">Next →</button>
+        </div>
+      </div>
+      <div class="gallery-rail" id="gallery-rail" tabindex="0" role="region" aria-label="Five projects. Use left and right arrow keys to browse." aria-describedby="rail-note">
+        <article class="project-card" aria-label="Project 1 of 5: Nephos"><span class="project-number">WORLD 01</span><div class="project-planet actor" aria-hidden="true"><div class="planet"></div></div><h3>Nephos</h3><p>Project content retained in the production gallery.</p></article>
+        <article class="project-card" aria-label="Project 2 of 5: Helios"><span class="project-number">WORLD 02</span><div class="project-planet actor" aria-hidden="true"><div class="planet"></div></div><h3>Helios</h3><p>Project content retained in the production gallery.</p></article>
+        <article class="project-card" aria-label="Project 3 of 5: 1nsight"><span class="project-number">WORLD 03</span><div class="project-planet actor" aria-hidden="true"><div class="planet"></div></div><h3>1nsight</h3><p>Project content retained in the production gallery.</p></article>
+        <article class="project-card" aria-label="Project 4 of 5: Quizzio"><span class="project-number">WORLD 04</span><div class="project-planet actor" aria-hidden="true"><div class="planet"></div></div><h3>Quizzio</h3><p>Project content retained in the production gallery.</p></article>
+        <article class="project-card" aria-label="Project 5 of 5: VBStat210"><span class="project-number">WORLD 05</span><div class="project-planet actor" aria-hidden="true"><div class="planet"></div></div><h3>VBStat210</h3><p>Project content retained in the production gallery.</p></article>
+        <div class="gallery-end-space" aria-hidden="true"></div>
+      </div>
+      <p class="rail-note" id="rail-note">Vertical page scrolling stays available. Only horizontal gestures and the gallery’s left/right controls move the projects.</p>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const panels = [...document.querySelectorAll('.panel')];
+      const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const reduceButton = document.getElementById('reduce');
+      const status = document.getElementById('motion-status');
+      const rail = document.getElementById('gallery-rail');
+      const galleryPanel = rail.closest('.panel');
+      const cards = [...rail.querySelectorAll('.project-card')];
+      const previous = document.getElementById('previous');
+      const next = document.getElementById('next');
+      const counter = document.getElementById('gallery-counter');
+      let manualReduced = false;
+      let reduced = preference.matches;
+      let settled = false;
+      let requestedIndex = 0;
+      let scrollTimer;
+      let cardVisibilityFrame;
+
+      function consumeCardEntrance(card) {
+        if (card.dataset.entered === 'true') return;
+        card.dataset.entered = 'true';
+        card.classList.add('card-entered');
+      }
+
+      function enterVisibleCards() {
+        cardVisibilityFrame = null;
+        if (reduced || settled || galleryPanel.dataset.entered !== 'true') return;
+        const railBounds = rail.getBoundingClientRect();
+        // A horizontally visible card must not consume its entrance while the rail is offscreen.
+        if (railBounds.bottom <= 0 || railBounds.top >= window.innerHeight) return;
+        cards.forEach(card => {
+          if (card.dataset.entered === 'true') return;
+          const bounds = card.getBoundingClientRect();
+          const visible = Math.min(bounds.right, railBounds.right) - Math.max(bounds.left, railBounds.left);
+          if (visible > Math.min(bounds.width * .15, 72)) consumeCardEntrance(card);
+        });
+      }
+
+      function scheduleCardVisibility() {
+        if (cardVisibilityFrame == null) cardVisibilityFrame = requestAnimationFrame(enterVisibleCards);
+      }
+
+      // Only decorative entrance layers are animated. Layout and labels keep their final geometry.
+      function enter(panel) {
+        if (panel.dataset.entered !== 'true') {
+          panel.dataset.entered = 'true';
+          panel.classList.add('is-entered');
+        }
+        if (panel === galleryPanel) scheduleCardVisibility();
+      }
+
+      function settleAll() {
+        settled = true;
+        root.classList.add('settled');
+        panels.forEach(enter);
+        cards.forEach(consumeCardEntrance);
+      }
+
+      function applyReducedMotion() {
+        reduced = manualReduced || preference.matches;
+        root.classList.toggle('reduced-motion', reduced);
+        reduceButton.setAttribute('aria-pressed', String(reduced));
+        reduceButton.textContent = reduced ? 'Reduce motion: on' : 'Reduce motion';
+        if (reduced) {
+          settleAll();
+          const currentRail = document.getElementById('gallery-rail');
+          currentRail.scrollTo({ left: currentRail.scrollLeft, behavior: 'instant' });
+          status.textContent = preference.matches ? 'Static · system reduced motion' : 'Static · reduced motion';
+        } else {
+          // Turning reduced motion off never replays entrances without an explicit request.
+          status.textContent = settled ? 'Settled · replay when ready' : 'Entrances play once per panel';
+        }
+      }
+
+      function enterVisiblePanels() {
+        panels.forEach(panel => {
+          const bounds = panel.getBoundingClientRect();
+          const visible = Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0);
+          if (visible > Math.min(bounds.height * .2, 120)) enter(panel);
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => { if (entry.isIntersecting && entry.intersectionRatio >= .2) enter(entry.target); });
+        }, { threshold: .2 });
+        panels.forEach(panel => observer.observe(panel));
+      } else {
+        panels.forEach(enter);
+      }
+
+      root.classList.add('motion-enabled');
+      document.getElementById('settle').addEventListener('click', () => {
+        settleAll();
+        status.textContent = reduced ? 'Static · reduced motion' : 'All entrances settled';
+      });
+      document.getElementById('replay').addEventListener('click', () => {
+        if (reduced) {
+          settleAll();
+          status.textContent = 'Static · reduced motion keeps entrances settled';
+          return;
+        }
+        settled = false;
+        root.classList.remove('settled');
+        panels.forEach(panel => { panel.dataset.entered = 'false'; panel.classList.remove('is-entered'); });
+        cards.forEach(card => { card.dataset.entered = 'false'; card.classList.remove('card-entered'); });
+        // A single layout read restarts CSS animations only on this explicit replay action.
+        void root.offsetWidth;
+        requestAnimationFrame(enterVisiblePanels);
+        status.textContent = 'Replay ready · scroll through the three panels';
+      });
+      reduceButton.addEventListener('click', () => {
+        manualReduced = !manualReduced;
+        applyReducedMotion();
+      });
+      preference.addEventListener('change', applyReducedMotion);
+      // A focused interactive panel should never keep its relevant artwork hidden.
+      panels.forEach(panel => panel.addEventListener('focusin', () => enter(panel)));
+
+      const constellation = document.getElementById('constellation');
+      function positionStarOrigins() {
+        const bounds = constellation.getBoundingClientRect();
+        constellation.querySelectorAll('.skill-node').forEach(node => {
+          const dx = bounds.width * (.5 - Number(node.dataset.x) / 100);
+          const dy = bounds.height * (.5 - Number(node.dataset.y) / 100);
+          const distance = Math.hypot(dx, dy);
+          const scale = distance ? 24 / distance : 0;
+          node.style.setProperty('--assemble-x', `${dx * scale}px`);
+          node.style.setProperty('--assemble-y', `${dy * scale}px`);
+        });
+      }
+      positionStarOrigins();
+      if ('ResizeObserver' in window) new ResizeObserver(positionStarOrigins).observe(constellation);
+      else window.addEventListener('resize', positionStarOrigins);
+
+      function cardPosition(index) { return cards[index].offsetLeft - cards[0].offsetLeft; }
+      function nearestIndex() {
+        return cards.reduce((best, card, index) => Math.abs(cardPosition(index) - rail.scrollLeft) < Math.abs(cardPosition(best) - rail.scrollLeft) ? index : best, 0);
+      }
+      function updateControls(index) {
+        requestedIndex = index;
+        previous.disabled = index === 0;
+        next.disabled = index === cards.length - 1;
+        counter.textContent = `${String(index + 1).padStart(2, '0')} / 05`;
+      }
+      function goTo(index) {
+        const target = Math.max(0, Math.min(cards.length - 1, index));
+        updateControls(target);
+        // scrollTo affects only this overflow container, preserving vertical page position.
+        rail.scrollTo({ left: cardPosition(target), behavior: reduced ? 'instant' : 'smooth' });
+      }
+      previous.addEventListener('click', () => goTo(requestedIndex - 1));
+      next.addEventListener('click', () => goTo(requestedIndex + 1));
+      rail.addEventListener('keydown', event => {
+        if (event.key === 'ArrowRight') { event.preventDefault(); goTo(requestedIndex + 1); }
+        else if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(requestedIndex - 1); }
+        else if (event.key === 'Home') { event.preventDefault(); goTo(0); }
+        else if (event.key === 'End') { event.preventDefault(); goTo(cards.length - 1); }
+        // Up/down and page keys remain untouched for vertical access.
+      });
+      rail.addEventListener('scroll', () => {
+        scheduleCardVisibility();
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => updateControls(nearestIndex()), 140);
+      }, { passive: true });
+      window.addEventListener('scroll', scheduleCardVisibility, { passive: true });
+      window.addEventListener('resize', () => { updateControls(nearestIndex()); scheduleCardVisibility(); });
+      updateControls(0);
+      applyReducedMotion();
+      requestAnimationFrame(enterVisiblePanels);
+    })();
+  </script>
+</body>
+</html>

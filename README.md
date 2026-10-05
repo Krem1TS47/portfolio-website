@@ -1,19 +1,6 @@
 # Benjamin Ching — Portfolio
 
-Single-page portfolio built with React 19, Vite, Tailwind CSS 4, Motion and React Three Fiber.
-A night-sky planet hero that dawns into a Greek garden: marble bust, stoa, pear tree of skills,
-and a museum gallery of projects, all drawn in code with CC0 antiquities from The Met.
-
-## Stack
-
-| Layer | Library |
-|---|---|
-| UI | React 19, Vite 5 |
-| Styling | Tailwind CSS 4 (`@theme` tokens in `src/index.css`), self-hosted fonts via Fontsource |
-| Motion | [Motion](https://motion.dev) (`motion/react`) for all UI animation, Lenis for inertial scroll |
-| 3D | three.js + React Three Fiber, Drei, `@react-three/postprocessing`, `three-custom-shader-material` |
-| Art | SVG ornaments in `src/components/ornaments/`; CC0 images from The Met Open Access (`npm run art:fetch`) |
-| Backend | Netlify Functions (`netlify/functions`) for an email-verified contact form (currently not wired to the UI) |
+A single-page planetary portfolio built with React 19, Vite, Tailwind CSS 4, Motion, Lenis and React Three Fiber. The interactive 3D hero leads into an orbital About map, connected employer planets, four skill constellations and a horizontal project journey.
 
 ## Getting started
 
@@ -25,51 +12,27 @@ npm run build
 npm run preview
 ```
 
-`npm run art:fetch` re-downloads the pinned Met artworks listed in `scripts/met-objects.json` into `public/art/`
-and regenerates `src/data/art.json` (attribution manifest). Behind a TLS-intercepting proxy, set `NODE_EXTRA_CA_CERTS`.
+## Layout and interaction
 
-## Project structure
+- **Home:** lazy WebGL planet with dragging and pointer parallax; CSS poster when WebGL is unavailable or reduced motion is enabled.
+- **About:** five labeled interest buttons select intersecting orbits around a CSS planet. The biography and volleyball link remain in HTML.
+- **Experience:** one connected planet per employer, with every role and description visible. A curved desktop route becomes a vertical route on phones.
+- **Skills:** all 29 skills in the existing four categories are linked in SVG constellations. Hover, focus or touch highlights a group; skill and group buttons preserve selection until cleared. Small screens use readable star-linked lists.
+- **Projects:** five SVG/CSS worlds preserve the project data and links. Fine-pointer screens at least 1024px wide and 620px tall use a sticky horizontal gallery driven by document scroll. Other devices and reduced-motion users get a vertical gallery. Previous/next controls and keyboard focus map to measured project stops.
+- **Navigation/contact:** section anchors remain `#home`, `#about`, `#experience`, `#stack` and `#projects`. The menu traps focus, closes with Escape and restores focus. Large screens also have a waypoint rail. Contact links are in the footer.
 
-```
-src/
-├── components/
-│   ├── Section.jsx, SectionHeading.jsx     # layout primitives
-│   ├── Backdrop.jsx, Grain.jsx             # night nebula + day cobalt sky (cross-faded by `dawn`), film grain
-│   ├── Reveal.jsx                          # scroll-reveal primitives (Reveal, RevealGroup, RevealItem)
-│   ├── HeroTitle.jsx, RotatingWord.jsx     # hero text motion
-│   ├── Sidebar.jsx, MenuButton.jsx         # navigation
-│   ├── MarbleBust.jsx                      # About: photo → marble bust via SVG filters, on a Pedestal
-│   ├── Stoa.jsx                            # Experience: Doric colonnade with a scroll-drawn stylobate
-│   ├── PearTree.jsx, StackGrove.jsx        # Stack: SVG orchard (desktop) / steles (mobile)
-│   ├── Gallery.jsx, Artwork.jsx            # Projects: pinned horizontal museum / vertical wall
-│   ├── Footer.jsx                          # brass plaque colophon with contact links + attributions
-│   ├── TiltCard.jsx, Cursor.jsx, ScrollProgress.jsx, SmoothScroll.jsx
-│   ├── PlanetPoster.jsx, SceneErrorBoundary.jsx
-│   └── ornaments/                          # Meander, Laurel, DoricColumn, Amphora, HalftoneCloud, DottedRings, Pedestal, Stele
-├── three/                                  # React Three Fiber planet scene (lazy-loaded)
-├── pages/                                  # one component per section
-├── data/                                   # nav, projects, experience, stack, tree geometry, contact, art.json
-├── hooks/                                  # useDawn, useMagnetic, useActiveSection, useMediaQuery
-├── motion/                                 # presets.js (easing/springs), dawn.js (night→day motion value)
-└── index.css                               # Tailwind 4 theme tokens, garden/paper scopes, utilities
-scripts/fetch-met-art.mjs                   # downloads CC0 Met objects → public/art + src/data/art.json
-```
+## Design and source
 
-## Design tokens
+`src/index.css` contains the shared dark surfaces, warm text, coral/peach/violet/moon accents, typography and section styles. The palette follows `src/three/constants.js`. Fontsource serves Inter, Instrument Serif and Geist Mono locally.
 
-All colours are OKLCH and defined once in `src/index.css` under `@theme`:
-surfaces `bg-0…bg-3`, text `fg / fg-2 / fg-3`, accents `coral / coral-hot / peach / violet`, hairlines `line / line-strong`,
-plus garden names (`sky`, `paper`, `cream`, `ink`, `gold-300/500/700`, `sash`, `laurel`, `olive`).
+`OrbitalPlanet.jsx` supplies lightweight decorative planets below the hero. `ConstellationMap.jsx` contains the skill map; `Gallery.jsx` measures horizontal travel and controls document scroll; `ProjectWorld.jsx` draws the project illustrations. Content remains in `src/data/`.
 
-Two scopes re-skin the same variables so every utility flips automatically:
-`.garden` (everything below the hero: cream text and gold accents on cobalt sky) and
-`.garden .paper` (marble/paper surfaces: ink text). The hero's scroll progress drives the `dawn`
-motion value (`src/motion/dawn.js`), which cross-fades the Backdrop and sets `data-dawn` on `<html>`.
+Lenis supplies smooth wheel scrolling. Motion supplies reveals, orbit movement, path drawing and horizontal translation. Reduced-motion preferences are observed reactively: wheel smoothing stops, the gallery becomes vertical, orbit/parallax transforms stop and content stays sharp. Initial hash navigation runs once so preference changes do not jump back to an earlier destination.
 
-Utilities: `glass`, `label`, `spotlight`, `inscription`, `engraved`, `gold`, `gold-leaf`, `marble`, `parchment`, `meander`, `plaque`, `halftone`.
+The hero is the only WebGL canvas. It is lazy-loaded, caps pixel ratio and pauses rendering offscreen. The sections below use CSS, SVG and semantic HTML controls.
 
-## Accessibility and performance
+The optional Netlify contact functions are retained but the visible contact link uses email directly. The earlier museum components, art data and `art:fetch` script remain as unused source assets.
 
-- `prefers-reduced-motion` swaps the WebGL planet for a CSS poster, disables Lenis, and collapses motion to fades.
-- The 3D scene is lazy-loaded, renders at a clamped device pixel ratio, and pauses its render loop when scrolled off-screen.
-- Keyboard: the sidebar is a modal dialog (Escape closes, focus is managed); all interactive elements have a visible focus ring.
+## Validation
+
+Run `npm run build`, then check desktop, tablet, phone, short viewports, keyboard navigation and both reduced-motion settings in a browser. In particular, verify all gallery stops, direct anchors, resize during the horizontal gallery, and preference changes without reloading. No automated test runner is currently configured.
