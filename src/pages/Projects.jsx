@@ -12,7 +12,6 @@ const Projects = () => (
                     index={sectionIndex('projects')}
                     eyebrow="Projects"
                     title="Ideas in orbit."
-                    lede="Five projects, each a different world. A journey through the things I've built."
                 />
             </Reveal>
         </div>

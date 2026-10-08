@@ -12,7 +12,6 @@ const Stack = () => (
                 index={sectionIndex('stack')}
                 eyebrow="The constellation"
                 title="A connected skillset."
-                lede="Languages, frameworks, data, and tools. Twenty-nine points in a connected sky."
             />
         </Reveal>
         <ConstellationMap categories={stackCategories} />
