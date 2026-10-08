@@ -139,10 +139,6 @@ const Experience = () => {
     return (
         <Section id="experience" className="orbital-experience">
             <SectionHeading index={sectionIndex('experience')} eyebrow="Experience" title="Experience" />
-            <div className="career-journey-meta">
-                <span className="label">A connected journey</span>
-                <span className="career-journey-count">02 destinations · 03 roles</span>
-            </div>
             <div ref={route} className="career-route">
                 {experiences.map((entry, index) => (
                     <CareerStop

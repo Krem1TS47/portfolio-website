@@ -147,10 +147,6 @@ const About = () => {
                         <span aria-hidden="true" className="about-orbit-coordinate about-orbit-coordinate-top">49°16′ N</span>
                         <span aria-hidden="true" className="about-orbit-coordinate about-orbit-coordinate-bottom">123°07′ W</span>
                     </div>
-                    <figcaption className="about-orbit-caption" id={`${id}-orbit-hint`}>
-                        <span className="about-orbit-caption-line" aria-hidden="true" />
-                        Explore the interests in my orbit
-                    </figcaption>
                 </figure>
 
                 <div ref={biography.ref} className="about-orbit-story">
@@ -163,8 +159,7 @@ const About = () => {
                     >
                         <p className="label about-orbit-location"><span aria-hidden="true" />Vancouver, BC <span className="about-orbit-year">2026</span></p>
                         <p className="about-orbit-intro">
-                            Hello! I'm <span className="text-coral">Ben</span>, an honours CS student at UBC.
-                            I'm deeply interested about a few things, so here's a list:
+                            Hello! I'm <span className="text-coral">Ben</span>, an honours CS student at the University of British Columbia. I'm deeply interested in topics related to software development, data analytics, and machine learning/artificial intelligence.
                         </p>
                         <p className="about-orbit-volleyball">
                             Outside of school, you can definitely find me doing something related to volleyball. Whether it is coaching, playing in a tournament, or just watching a game, I have always been passionate about the sport and love being involved in it.
