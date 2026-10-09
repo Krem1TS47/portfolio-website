@@ -729,7 +729,8 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .project-entry-description { color: #c8becd; margin-top: .9rem; max-width: 47ch; font-size: .95rem; line-height: 1.65; }
 .project-entry-stack { display: flex; flex-wrap: wrap; gap: .35rem 0; margin-top: .95rem; padding: 0; list-style: none; color: #aaa0b6; font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .61rem; line-height: 1.7; }
 .project-entry-stack li + li::before { content: '·'; color: #f08a7a; margin-inline: .65rem; }
-.project-entry-link { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.3rem; color: #ffd9b8; font-size: .8rem; line-height: 1.5; }
+/* 44px hit area; the smaller top margin keeps the text where it was. */
+.project-entry-link { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; margin-top: .5rem; color: #ffd9b8; font-size: .8rem; line-height: 1.5; }
 .project-entry-link svg { width: 1rem; height: 1rem; transition: transform 180ms ease; }
 .project-entry-link:hover svg { transform: translate(2px, -2px); }
 /* Native sideways travel: content remains in normal document flow. */
