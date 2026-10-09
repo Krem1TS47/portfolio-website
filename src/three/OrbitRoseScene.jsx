@@ -3,13 +3,12 @@ import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { damp } from 'maath/easing'
 import { PALETTE } from './constants'
-import { CYCLE, R_EARTH, R_VENUS, positions, roseSegments } from './roseMath'
+import { CYCLE, R_EARTH, R_VENUS, ROSE_STEPS as STEPS, positions, roseSegments } from './roseMath'
 
-const STEPS = 320
 const CYCLE_SECONDS = 24
 const HOLD_SECONDS = 2.5
 const FADE_SECONDS = 1.2
-const ROSE_OPACITY = 0.5
+const ROSE_OPACITY = 0.16
 
 const circle = (radius, segments = 160) => {
     const points = []

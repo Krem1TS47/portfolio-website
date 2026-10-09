@@ -6,14 +6,14 @@ import SceneErrorBoundary from '../components/SceneErrorBoundary'
 import { entranceVariants, useEntrance } from '../components/Reveal'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useWebGL } from '../three/useWebGL'
-import { rosePath } from '../three/roseMath'
+import { ROSE_STEPS, rosePath } from '../three/roseMath'
 import { EASE } from '../motion/presets'
 import { sectionIndex } from '../data/nav'
 
 const OrbitRose = lazy(() => import('../three/OrbitRose'))
 
 const ROSE_SCALE = 240
-const ROSE_PATH = rosePath(160, ROSE_SCALE)
+const ROSE_PATH = rosePath(ROSE_STEPS, ROSE_SCALE)
 
 /** Static rose for reduced motion, no WebGL, or while the canvas loads. */
 const RoseDiagram = () => (

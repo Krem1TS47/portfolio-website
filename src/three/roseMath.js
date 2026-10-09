@@ -8,6 +8,9 @@ export const R_VENUS = 0.7233
 export const T_EARTH = 365.256
 export const T_VENUS = 224.701
 export const CYCLE = 8 * T_EARTH
+// About three days per line. Must not divide evenly by 8: a count like 160
+// lands Earth on the same 20 points every year and draws a star, not the rose.
+export const ROSE_STEPS = 977
 
 const TAU = Math.PI * 2
 
