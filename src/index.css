@@ -745,8 +745,18 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .projects-stage .project-gallery-controls { max-width: none; }
 .projects-heading { margin-bottom: clamp(1rem, 3svh, 2.5rem) !important; }
 .projects-row { display: flex; align-items: flex-start; gap: clamp(1.5rem, 3vw, 3rem); width: max-content; padding-inline: var(--gallery-gutter); will-change: transform; }
-.projects-card { flex: 0 0 min(64vw, 44rem); min-width: 0; }
-.projects-card .project-world { aspect-ratio: auto; height: clamp(10rem, 34svh, 25rem); }
+/* The art is drawn at 3:2, so the preview's height budget sets its width and
+   the card follows it, never narrower than a readable 26rem text column. */
+.projects-pin { --world-h: clamp(10rem, 34svh, 25rem); }
+@media (max-height: 820px) {
+    .projects-pin { --world-h: 29svh; }
+    .projects-card .project-entry-title-row h3 { font-size: clamp(2rem, 3vw, 2.6rem); }
+}
+@media (max-height: 820px) and (min-width: 601px) {
+    .projects-stage .projects-heading h2 { font-size: 3.5rem; }
+}
+.projects-card { flex: 0 0 auto; width: min(64vw, 44rem, max(var(--world-h) * 1.5, 26rem)); min-width: 0; }
+.projects-card .project-world { aspect-ratio: 3 / 2; width: min(100%, var(--world-h) * 1.5); height: auto; }
 .projects-card .project-entry-content { padding-top: 1rem; }
 .projects-card .project-entry-title-row h3 { font-size: clamp(2rem, 3.4vw, 3.2rem); }
 /* The illustration already carries "0N / 05"; in the row this one floats beside the next card. */
@@ -756,7 +766,7 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .projects-outro .space-footer { border-top: 0; }
 .projects-stack { display: grid; gap: 4rem; max-width: 72rem; margin-inline: auto; padding: 0 2rem 4rem; }
 @media (max-height: 760px) {
-    .projects-card .project-world { height: 26svh; }
+    .projects-pin { --world-h: 29svh; }
     .projects-outro .space-footer { padding-top: 3rem; }
     .projects-outro .space-footer__links { margin-top: 1.5rem; gap: .8rem; }
     .projects-outro .space-footer__colophon { margin-top: 2rem; }
@@ -788,7 +798,7 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
     .projects-pin { --gallery-gutter: 1.5rem; }
     /* Clear the fixed 56px menu button at top: 1.25rem. */
     .projects-stage { padding-top: 5.75rem; }
-    .projects-card .project-world { height: clamp(10rem, 28svh, 25rem); }
+    .projects-pin { --world-h: clamp(10rem, 28svh, 25rem); }
     .projects-card { flex-basis: 84vw; }
     .projects-stack { padding-inline: 1.5rem; }
     .project-entry-meta { font-size: .58rem; }
