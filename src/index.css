@@ -739,7 +739,7 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .projects-track { position: relative; scroll-margin-top: 0; }
 /* One gutter for heading, cards and controls: the 72rem column's left edge. */
 .projects-pin { --gallery-gutter: max(2rem, calc((100vw - 72rem) / 2 + 2rem)); position: sticky; top: 0; height: 100svh; overflow: clip; }
-.projects-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding-top: clamp(4.5rem, 9svh, 6.5rem); overflow: clip; background: #13111d; border: 1px solid rgb(255 217 184 / .1); transform-origin: 50% 50%; will-change: transform, opacity; }
+.projects-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: safe center; padding-top: clamp(4.5rem, 9svh, 6.5rem); overflow: clip; background: #13111d; border: 1px solid rgb(255 217 184 / .1); transform-origin: 50% 50%; will-change: transform, opacity; }
 .projects-stage .project-section-heading { width: 100%; max-width: none; padding-inline: var(--gallery-gutter); }
 .projects-stage .project-gallery-controls { max-width: none; }
 .projects-heading { margin-bottom: clamp(1rem, 3svh, 2.5rem) !important; }
@@ -753,6 +753,7 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .projects-outro .space-footer { border-top: 0; }
 .projects-stack { display: grid; gap: 4rem; max-width: 72rem; margin-inline: auto; padding: 0 2rem 4rem; }
 @media (max-height: 760px) {
+    .projects-card .project-world { height: 26svh; }
     .projects-outro .space-footer { padding-top: 3rem; }
     .projects-outro .space-footer__links { margin-top: 1.5rem; gap: .8rem; }
     .projects-outro .space-footer__colophon { margin-top: 2rem; }
@@ -782,6 +783,9 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 @media (max-width: 600px) {
     .project-section-heading { padding-inline: 1.5rem; }
     .projects-pin { --gallery-gutter: 1.5rem; }
+    /* Clear the fixed 56px menu button at top: 1.25rem. */
+    .projects-stage { padding-top: 5.75rem; }
+    .projects-card .project-world { height: clamp(10rem, 28svh, 25rem); }
     .projects-card { flex-basis: 84vw; }
     .projects-stack { padding-inline: 1.5rem; }
     .project-entry-meta { font-size: .58rem; }
