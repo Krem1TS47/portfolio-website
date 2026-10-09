@@ -6,7 +6,6 @@ import ScrollProgress from './components/ScrollProgress'
 import Cursor from './components/Cursor'
 import Sidebar from './components/Sidebar'
 import MenuButton from './components/MenuButton'
-import Footer from './components/Footer'
 import JourneyNav from './components/JourneyNav'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -52,13 +51,12 @@ function App() {
             <JourneyNav />
             <main id="main-content" tabIndex={-1}>
                 <Home />
-                {/* A single palette carries the journey from the hero to contact. */}
+                {/* A single palette carries the journey from the hero to contact (Projects ends in the footer). */}
                 <div className="space-journey">
                     <About />
                     <Experience />
                     <Stack />
                     <Projects />
-                    <Footer />
                 </div>
             </main>
         </div>

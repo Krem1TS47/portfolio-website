@@ -290,7 +290,7 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 }
 
 
-/* About: intersecting interests around a physical planetary centre. */
+/* About: the Earth–Venus rose, drawn in 3D (static SVG fallback). */
 .about-orbit-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
@@ -307,54 +307,12 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
     border-radius: 50%;
     background: radial-gradient(ellipse at 50% 48%, rgb(155 123 255 / .13), rgb(240 138 122 / .045) 40%, transparent 69%);
 }
-.about-orbit-motion, .about-orbit-paths, .about-interest-orbits { position: absolute; inset: 0; width: 100%; height: 100%; }
-.about-orbit-motion { pointer-events: none; }
-.about-orbit-paths { overflow: visible; }
-.about-orbit-boundary { fill: none; stroke: rgb(200 220 255 / .08); stroke-dasharray: 2 9; }
-.about-orbit-path { fill: none; stroke: rgb(200 220 255 / .16); stroke-width: .8; transition: stroke .35s, stroke-width .35s; }
-.about-orbit-path.is-selected { stroke: rgb(255 217 184 / .63); stroke-width: 1.3; }
-.about-orbit-core { position: absolute; left: 37%; top: 35%; width: 26%; }
-.about-orbit-centre {
-    position: absolute;
-    left: 50%;
-    top: 64%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-family: var(--font-display);
-    font-style: italic;
-    color: #ffd9b8;
-    font-size: clamp(1.12rem, 2vw, 1.5rem);
-    pointer-events: none;
-}
-.about-interest-orbits { list-style: none; margin: 0; padding: 0; }
-.about-interest-orbits li { position: absolute; left: var(--orbit-x); top: var(--orbit-y); transform: translate(-50%, -50%); width: 33%; }
-.about-interest {
-    display: flex;
-    align-items: center;
-    gap: .55rem;
-    min-height: 44px;
-    width: 100%;
-    padding: .45rem .6rem;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    color: rgb(255 241 230 / .76);
-    background: rgb(19 17 29 / .83);
-    font-family: var(--font-sans);
-    font-size: clamp(.72rem, 1.25vw, .87rem);
-    line-height: 1.45;
-    text-align: left;
-    cursor: pointer;
-    transition: color .25s, background .25s, border-color .25s;
-}
-.about-interest.is-selected { color: #fff1e6; border-color: rgb(255 217 184 / .2); background: rgb(44 33 43 / .95); }
-.about-interest:hover { color: #ffd9b8; border-color: rgb(255 217 184 / .28); }
-.about-interest:focus-visible { outline: 2px solid #c8dcff; outline-offset: 4px; }
-.about-interest-dot { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; background: #9b7bff; box-shadow: 0 0 10px rgb(155 123 255 / .4); }
-.about-interest.is-selected .about-interest-dot { background: #ffd9b8; box-shadow: 0 0 12px rgb(255 217 184 / .6); }
-.about-orbit-coordinate { position: absolute; font: .56rem var(--font-mono); letter-spacing: .12em; color: rgb(200 220 255 / .45); }
-.about-orbit-coordinate-top { right: 2%; top: 5%; }
-.about-orbit-coordinate-bottom { left: 4%; bottom: 5%; }
-.about-orbit-caption { display: flex; align-items: center; justify-content: center; gap: .75rem; font: .62rem/1.5 var(--font-mono); letter-spacing: .04em; color: rgb(255 241 230 / .59); }
+.about-rose-canvas, .about-rose-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.about-rose-svg { overflow: visible; }
+.about-rose-orbit { fill: none; stroke: rgb(200 220 255 / .18); stroke-width: 1; }
+.about-rose-lines { fill: none; stroke: rgb(240 138 122 / .42); stroke-width: .7; }
+.about-rose-sun { fill: #ffe7d6; filter: drop-shadow(0 0 14px rgb(255 179 155 / .8)); }
+.about-orbit-caption { display: flex; margin-top: 1rem; align-items: center; justify-content: center; gap: .75rem; font: .62rem/1.5 var(--font-mono); letter-spacing: .04em; color: rgb(255 241 230 / .59); }
 .about-orbit-caption-line { width: 28px; height: 1px; background: rgb(240 138 122 / .6); }
 .about-orbit-story { padding-block: 1rem; }
 .about-orbit-location { display: flex; align-items: center; gap: .65rem; margin-bottom: 1.5rem; color: #c8dcff; }
@@ -397,8 +355,6 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 
 @media (max-width: 900px) {
     .about-orbit-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; }
-    .about-interest { font-size: .72rem; padding-inline: .3rem; gap: .35rem; }
-    .about-interest-orbits li { width: 37%; }
     .career-stop { grid-template-columns: 200px minmax(0, 1fr); gap: 2.8rem; }
 }
 
@@ -407,9 +363,6 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
     .about-orbit-story { order: -1; padding: 0; }
     .about-orbit-intro { font-size: clamp(1.7rem, 6.5vw, 2.25rem); }
     .about-orbit-figure { width: min(100%, 500px); }
-    .about-interest { font-size: clamp(.7rem, 2.7vw, .86rem); padding: .4rem; }
-    .about-interest-orbits li { width: 34%; }
-    .about-orbit-centre { font-size: clamp(1rem, 4vw, 1.4rem); }
     .career-journey-meta { flex-wrap: wrap; margin-bottom: 2.5rem; }
     .career-route { --career-gap: 3rem; }
     .career-stop { position: relative; grid-template-columns: minmax(0, 1fr); gap: 1.65rem; }
@@ -430,8 +383,8 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .about-orbit-motion, .about-orbit-paths, .about-orbit-core, .career-planet-body { transform: none !important; }
-    .about-orbit-path, .about-interest, .career-planet-orbit { transition: none; }
+    .career-planet-body { transform: none !important; }
+    .career-planet-orbit { transition: none; }
 }
 
 
@@ -461,52 +414,12 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
         radial-gradient(circle at 8% 92%, #c8dcff40 0 1px, transparent 1.5px);
 }
 
-.constellation-map-meta,
 .constellation-region-heading,
 .constellation-map-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-}
-
-.constellation-map-index {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: #c9bcc9;
-    font-size: 0.63rem;
-    letter-spacing: 0.12em;
-    line-height: 1.6;
-}
-
-.constellation-map-beacon {
-    flex: none;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #f08a7a;
-    box-shadow: 0 0 12px #f08a7a66;
-}
-
-.constellation-reset {
-    display: inline-flex;
-    flex: none;
-    align-items: center;
-    gap: 0.65rem;
-    min-height: 44px;
-    border: 0;
-    border-bottom: 1px solid #fff1e637;
-    padding: 0.3rem 0;
-    background: transparent;
-    color: #fff1e6;
-    font: 0.75rem/1.3 var(--font-mono);
-    cursor: pointer;
-}
-
-.constellation-reset:hover {
-    border-color: #f08a7a;
-    color: #f08a7a;
 }
 
 .constellation-instructions {
@@ -742,8 +655,6 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 }
 
 @media (max-width: 699px) {
-    .constellation-map-index { max-width: 13rem; font-size: 0.58rem; letter-spacing: 0.08em; }
-    .constellation-reset { font-size: 0.68rem; }
     .constellation-instructions { margin: 1rem 0 1.5rem; font-size: 0.8rem; }
     .constellation-grid { grid-template-columns: 1fr; }
     .constellation-region,
@@ -823,34 +734,39 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .project-entry-link:hover svg { transform: translate(2px, -2px); }
 /* Native sideways travel: content remains in normal document flow. */
 .project-entry-link:focus-visible, .project-gallery-buttons button:focus-visible { outline: 2px solid #ffd9b8; outline-offset: 6px; }
-.project-gallery-native { --gallery-gutter: clamp(1.5rem, 6vw, 6.5rem); position: relative; isolation: isolate; overflow: clip; padding-bottom: clamp(3rem, 6vw, 5rem); }
-.project-gallery-frame { position: absolute; inset: 0 0 3rem; z-index: -1; pointer-events: none; border-top: 1px solid rgb(255 217 184 / .1); background: radial-gradient(ellipse at 70% 25%, rgb(155 123 255 / .06), transparent 65%); }
-.project-rail { display: flex; align-items: flex-start; gap: clamp(1.5rem, 3vw, 3rem); width: 100%; padding: 1.5rem var(--gallery-gutter) 1.4rem; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; scroll-padding-inline: var(--gallery-gutter); overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #9b7bff55 #ffd9b80b; }
-.project-rail::-webkit-scrollbar { height: 4px; }
-.project-rail::-webkit-scrollbar-track { background: #ffd9b80b; }
-.project-rail::-webkit-scrollbar-thumb { background: #9b7bff55; border-radius: 2px; }
-.project-rail:focus-visible { outline: 1px solid #c8dcff; outline-offset: -5px; }
-.project-rail-card { flex: 0 0 min(64%, 44rem); min-width: 0; scroll-snap-align: center; }
-.project-rail-card .project-entry { width: 100%; }
-.project-rail-card .project-world { aspect-ratio: 1.65; }
-.project-rail-card .project-entry-title-row h3 { font-size: clamp(2.5rem, 4vw, 3.8rem); }
-.project-gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; max-width: 85rem; margin-inline: auto; padding: 1.25rem var(--gallery-gutter) .7rem; }
-.project-gallery-controls[hidden] { display: none; }
+/* Pinned journey: vertical scroll drives the row sideways, then zooms out to contact. */
+.projects-track { position: relative; scroll-margin-top: 0; }
+.projects-pin { --gallery-gutter: clamp(1.5rem, 6vw, 6.5rem); position: sticky; top: 0; height: 100svh; overflow: clip; }
+.projects-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding-top: clamp(4.5rem, 9svh, 6.5rem); overflow: clip; background: #13111d; border: 1px solid rgb(255 217 184 / .1); transform-origin: 50% 50%; will-change: transform, opacity; }
+.projects-stage .project-section-heading { width: 100%; }
+.projects-heading { margin-bottom: clamp(1rem, 3svh, 2.5rem) !important; }
+.projects-row { display: flex; align-items: flex-start; gap: clamp(1.5rem, 3vw, 3rem); width: max-content; padding-inline: var(--gallery-gutter); will-change: transform; }
+.projects-card { flex: 0 0 min(64vw, 44rem); min-width: 0; }
+.projects-card .project-world { aspect-ratio: auto; height: clamp(10rem, 34svh, 25rem); }
+.projects-card .project-entry-content { padding-top: 1rem; }
+.projects-card .project-entry-title-row h3 { font-size: clamp(2rem, 3.4vw, 3.2rem); }
+.projects-outro { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; pointer-events: none; transform-origin: 50% 50%; }
+.projects-outro[data-active='true'] { pointer-events: auto; }
+.projects-outro .space-footer { border-top: 0; }
+.projects-stack { display: grid; gap: 4rem; max-width: 72rem; margin-inline: auto; padding: 0 2rem 4rem; }
+@media (max-height: 760px) {
+    .projects-outro .space-footer { padding-top: 3rem; }
+    .projects-outro .space-footer__links { margin-top: 1.5rem; gap: .8rem; }
+    .projects-outro .space-footer__colophon { margin-top: 2rem; }
+    .projects-card .project-entry-description { display: none; }
+}
+.project-gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; width: 100%; max-width: 85rem; margin-inline: auto; padding: clamp(.75rem, 2svh, 1.25rem) var(--gallery-gutter) 0; }
 .project-gallery-position { display: flex; align-items: center; gap: .85rem; font-family: var(--font-mono, 'Geist Mono', monospace); font-size: .66rem; color: #aaa0b6; }
 .project-gallery-current { color: #ffd9b8; }
 .project-gallery-progress { display: block; width: clamp(4rem, 12vw, 10rem); height: 1px; background: rgb(255 217 184 / .15); }
 .project-gallery-progress > span { display: block; width: 100%; height: 100%; background: #f08a7a; transform-origin: left; }
 .project-gallery-buttons { display: flex; gap: .65rem; }
-.project-gallery-buttons[hidden], .project-gallery-progress[hidden] { display: none; }
 .project-gallery-buttons button { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgb(255 217 184 / .24); border-radius: 50%; color: #ffd9b8; font-size: 1.1rem; background: transparent; cursor: pointer; transition: border-color 180ms ease, background 180ms ease; }
 .project-gallery-buttons button:hover:not(:disabled) { border-color: #f08a7a; background: rgb(240 138 122 / .08); }
 .project-gallery-buttons button:disabled { color: #756c82; opacity: .45; cursor: default; }
-.project-gallery-hint { padding-inline: var(--gallery-gutter); color: #aaa0b6; font: .65rem/1.6 var(--font-mono, 'Geist Mono', monospace); }
-.project-gallery-empty { max-width: 72rem; margin-inline: auto; padding: 2rem var(--gallery-gutter); color: #c8becd; }
 
 /* Position, entrance, drift, and hover each own a separate element. */
-.about-orbit-ring-arrival { position: absolute; inset: 0; pointer-events: none; }
-.about-planet-arrival, .career-planet-arrival { display: block; width: 100%; }
+.career-planet-arrival { display: block; width: 100%; }
 .about-orbit-copy, .career-company-copy, .career-role-copy { display: block; }
 .constellation-star-entrance { display: block; flex: none; width: 10px; height: 10px; transform-origin: center; }
 
@@ -862,7 +778,8 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 }
 @media (max-width: 600px) {
     .project-section-heading { padding-inline: 1.5rem; }
-    .project-rail-card { flex-basis: 86%; }
+    .projects-card { flex-basis: 84vw; }
+    .projects-stack { padding-inline: 1.5rem; }
     .project-entry-meta { font-size: .58rem; }
     .project-world-label, .project-world-coordinate { font-size: .49rem; bottom: .8rem; }
     .project-gallery-controls { gap: .75rem; }

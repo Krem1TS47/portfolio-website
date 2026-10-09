@@ -146,14 +146,6 @@ function ConstellationMap({ categories }) {
     const [hoveredGroup, setHoveredGroup] = useState(null)
     const [focusedGroup, setFocusedGroup] = useState(null)
     const activeGroup = focusedGroup ?? hoveredGroup ?? selectedGroup
-    const skillCount = categories.reduce((total, category) => total + category.skills.length, 0)
-
-    const reset = () => {
-        setSelectedGroup(null)
-        setSelectedSkill(null)
-        setHoveredGroup(null)
-        setFocusedGroup(null)
-    }
 
     const selectGroup = (index) => {
         setSelectedGroup((current) => current === index ? null : index)
@@ -168,16 +160,6 @@ function ConstellationMap({ categories }) {
 
     return (
         <div className="constellation-map" data-has-active={activeGroup !== null}>
-            <div className="constellation-map-meta">
-                <p className="label constellation-map-index">
-                    <span className="constellation-map-beacon" aria-hidden="true" />
-                    {skillCount} stars / {categories.length} constellations
-                </p>
-                <button type="button" className="constellation-reset" onClick={reset} aria-label="Clear the selected constellation or skill">
-                    All stars <span aria-hidden="true">↗</span>
-                </button>
-            </div>
-
             <p className="constellation-instructions" id="constellation-instructions">
                 Trace a constellation. Hover, focus, or select any star to see its related skills.
             </p>

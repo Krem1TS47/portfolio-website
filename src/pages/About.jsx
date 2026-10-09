@@ -1,67 +1,46 @@
-import { useEffect, useId, useMemo, useState } from 'react'
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
+import { Suspense, lazy, useMemo } from 'react'
+import { motion, useScroll } from 'motion/react'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
-import OrbitalPlanet from '../components/OrbitalPlanet'
+import SceneErrorBoundary from '../components/SceneErrorBoundary'
 import { entranceVariants, useEntrance } from '../components/Reveal'
 import { useMediaQuery } from '../hooks/useMediaQuery'
-import { EASE, SPRING } from '../motion/presets'
+import { useWebGL } from '../three/useWebGL'
+import { rosePath } from '../three/roseMath'
+import { EASE } from '../motion/presets'
 import { sectionIndex } from '../data/nav'
 
-const interests = [
-    { label: 'Data Engineering', x: 31, y: 14, rotation: -34 },
-    { label: 'Web Development', x: 79, y: 29, rotation: 27 },
-    { label: 'Data Analytics', x: 76, y: 71, rotation: -8 },
-    { label: 'Machine Learning/Models', x: 30, y: 86, rotation: 52 },
-    { label: 'Software Engineering', x: 19, y: 49, rotation: -65 },
-]
+const OrbitRose = lazy(() => import('../three/OrbitRose'))
+
+const ROSE_SCALE = 240
+const ROSE_PATH = rosePath(160, ROSE_SCALE)
+
+/** Static rose for reduced motion, no WebGL, or while the canvas loads. */
+const RoseDiagram = () => (
+    <svg className="about-rose-svg" viewBox="-260 -260 520 520" aria-hidden="true">
+        <circle r={ROSE_SCALE} className="about-rose-orbit" />
+        <circle r={ROSE_SCALE * 0.7233} className="about-rose-orbit" />
+        <path d={ROSE_PATH} className="about-rose-lines" />
+        <circle r="9" className="about-rose-sun" />
+    </svg>
+)
 
 const About = () => {
     const artwork = useEntrance()
     const biography = useEntrance()
-    const orbit = artwork.ref
-    const [selected, setSelected] = useState(0)
     const reduced = useMediaQuery('(prefers-reduced-motion: reduce)', true)
     const compact = useMediaQuery('(max-width: 700px)')
-    const id = useId()
-    const pointerX = useMotionValue(0)
-    const pointerY = useMotionValue(0)
-    const x = useSpring(pointerX, { stiffness: 75, damping: 24 })
-    const y = useSpring(pointerY, { stiffness: 75, damping: 24 })
-    const { scrollYProgress } = useScroll({ target: orbit, offset: ['start end', 'end start'] })
-    const rotation = useTransform(scrollYProgress, [0, 1], [-5, 5])
-    const drift = useTransform(scrollYProgress, [0, 1], [9, -9])
-    const planetArrival = useMemo(() => entranceVariants(
-        { opacity: 0, x: compact ? -12 : -22, y: compact ? 32 : 64, scale: 0.8 },
-        { ...SPRING.soft, x: { duration: 0.85, ease: EASE }, opacity: { duration: 0.35, ease: EASE } },
-    ), [compact])
-    const ringArrival = useMemo(() => entranceVariants(
-        { opacity: 0, scale: 0.9 },
-        { duration: 0.7, delay: 0.05, ease: EASE },
+    const webgl = useWebGL()
+    const showScene = webgl && !reduced
+    const { scrollYProgress } = useScroll({ target: artwork.ref, offset: ['start end', 'end start'] })
+    const roseArrival = useMemo(() => entranceVariants(
+        { opacity: 0, scale: 0.88 },
+        { duration: 0.8, ease: EASE },
     ), [])
     const textArrival = useMemo(() => entranceVariants(
         { opacity: 0, x: compact ? 20 : 32 },
         { duration: 0.45, delay: 0.1, ease: EASE },
     ), [compact])
-
-    useEffect(() => {
-        if (reduced) {
-            pointerX.set(0)
-            pointerY.set(0)
-        }
-    }, [reduced, pointerX, pointerY])
-
-    const moveOrbit = (event) => {
-        if (reduced || event.pointerType === 'touch') return
-        const bounds = event.currentTarget.getBoundingClientRect()
-        pointerX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 12)
-        pointerY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * 12)
-    }
-
-    const resetOrbit = () => {
-        pointerX.set(0)
-        pointerY.set(0)
-    }
 
     const finishAbout = () => {
         artwork.finish()
@@ -73,80 +52,29 @@ const About = () => {
             <SectionHeading index={sectionIndex('about')} eyebrow="About" title="About Me" />
 
             <div className="about-orbit-layout" onFocusCapture={finishAbout}>
-                <figure className="about-orbit-figure">
-                    <div
-                        ref={orbit}
+                <figure ref={artwork.ref} className="about-orbit-figure">
+                    <motion.div
                         className="about-orbit-map"
-                        onPointerMove={reduced ? undefined : moveOrbit}
-                        onPointerLeave={reduced ? undefined : resetOrbit}
+                        initial={artwork.reduced ? false : 'hidden'}
+                        animate={artwork.variant}
+                        variants={roseArrival}
+                        onAnimationComplete={(definition) => { if (definition === 'show') artwork.complete() }}
                     >
                         <div aria-hidden="true" className="about-orbit-haze" />
-                        <motion.div aria-hidden="true" className="about-orbit-motion" style={{ x: reduced ? 0 : x, y: reduced ? 0 : y }}>
-                            <motion.div
-                                className="about-orbit-ring-arrival"
-                                initial={artwork.reduced ? false : 'hidden'}
-                                animate={artwork.variant}
-                                variants={ringArrival}
-                            >
-                                <motion.svg className="about-orbit-paths" viewBox="0 0 560 560" style={{ rotate: reduced ? 0 : rotation }}>
-                                    <defs>
-                                        <radialGradient id={`${id}-orbit-glow`}>
-                                            <stop offset="0" stopColor="#ffd9b8" stopOpacity="0.45" />
-                                            <stop offset="1" stopColor="#9b7bff" stopOpacity="0.06" />
-                                        </radialGradient>
-                                    </defs>
-                                    <circle cx="280" cy="274" r="235" className="about-orbit-boundary" />
-                                    {interests.map((interest, index) => (
-                                        <ellipse
-                                            key={interest.label}
-                                            cx="280"
-                                            cy="274"
-                                            rx={178 + index * 9}
-                                            ry={83 + index * 5}
-                                            transform={`rotate(${interest.rotation} 280 274)`}
-                                            className={`about-orbit-path ${selected === index ? 'is-selected' : ''}`}
-                                        />
-                                    ))}
-                                    <circle cx="280" cy="274" r="111" fill={`url(#${id}-orbit-glow)`} />
-                                    <circle cx="372" cy="93" r="2" fill="#c8dcff" />
-                                    <circle cx="427" cy="422" r="2" fill="#ffd9b8" />
-                                    <circle cx="91" cy="365" r="1.5" fill="#9b7bff" />
-                                </motion.svg>
-                            </motion.div>
-                            <motion.div className="about-orbit-core" style={{ y: reduced ? 0 : drift }}>
-                                <motion.div
-                                    className="about-planet-arrival"
-                                    initial={artwork.reduced ? false : 'hidden'}
-                                    animate={artwork.variant}
-                                    variants={planetArrival}
-                                    onAnimationComplete={(definition) => { if (definition === 'show') artwork.complete() }}
-                                >
-                                    <OrbitalPlanet tone="coral" ring />
-                                </motion.div>
-                            </motion.div>
-                        </motion.div>
-                        <p className="about-orbit-centre" aria-hidden="true">A curious mind</p>
-                        <ul className="about-interest-orbits" aria-label="My interests">
-                            {interests.map((interest, index) => (
-                                <li key={interest.label} style={{ '--orbit-x': `${interest.x}%`, '--orbit-y': `${interest.y}%` }}>
-                                    <button
-                                        type="button"
-                                        className={`about-interest ${selected === index ? 'is-selected' : ''}`}
-                                        aria-pressed={selected === index}
-                                        aria-describedby={`${id}-orbit-hint`}
-                                        onClick={() => setSelected(index)}
-                                        onFocus={() => setSelected(index)}
-                                        onPointerEnter={(event) => { if (event.pointerType === 'mouse') setSelected(index) }}
-                                    >
-                                        <span className="about-interest-dot" aria-hidden="true" />
-                                        <span>{interest.label}</span>
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                        <span aria-hidden="true" className="about-orbit-coordinate about-orbit-coordinate-top">49°16′ N</span>
-                        <span aria-hidden="true" className="about-orbit-coordinate about-orbit-coordinate-bottom">123°07′ W</span>
-                    </div>
+                        {showScene ? (
+                            <SceneErrorBoundary fallback={<RoseDiagram />}>
+                                <Suspense fallback={<RoseDiagram />}>
+                                    <OrbitRose progress={scrollYProgress} />
+                                </Suspense>
+                            </SceneErrorBoundary>
+                        ) : (
+                            <RoseDiagram />
+                        )}
+                    </motion.div>
+                    <figcaption className="about-orbit-caption">
+                        <span className="about-orbit-caption-line" aria-hidden="true" />
+                        Earth · Venus — 13 : 8 resonance over 8 years
+                    </figcaption>
                 </figure>
 
                 <div ref={biography.ref} className="about-orbit-story">
