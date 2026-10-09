@@ -749,6 +749,8 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .projects-card .project-world { aspect-ratio: auto; height: clamp(10rem, 34svh, 25rem); }
 .projects-card .project-entry-content { padding-top: 1rem; }
 .projects-card .project-entry-title-row h3 { font-size: clamp(2rem, 3.4vw, 3.2rem); }
+/* The illustration already carries "0N / 05"; in the row this one floats beside the next card. */
+.projects-card .project-entry-number { display: none; }
 .projects-outro { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; pointer-events: none; transform-origin: 50% 50%; }
 .projects-outro[data-active='true'] { pointer-events: auto; }
 .projects-outro .space-footer { border-top: 0; }
