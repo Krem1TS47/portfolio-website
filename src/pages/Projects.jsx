@@ -75,9 +75,11 @@ const ProjectsJourney = () => {
     const zoom = useTransform(scrolled, (s) => clamp((s - geometry.current.travel) / geometry.current.zoom))
     const stageScale = useTransform(zoom, (z) => 1 - z * 0.5)
     const stageRadius = useTransform(zoom, (z) => z * 32)
-    const stageOpacity = useTransform(zoom, (z) => 1 - clamp((z - 0.3) / 0.4))
+    // Sequential, not a crossfade: the gallery is gone before the contact
+    // layer is legible, so the two never read as a double exposure.
+    const stageOpacity = useTransform(zoom, (z) => 1 - clamp((z - 0.15) / 0.35))
     const outroScale = useTransform(zoom, (z) => 1.2 - z * 0.2)
-    const outroOpacity = useTransform(zoom, (z) => clamp((z - 0.55) / 0.45))
+    const outroOpacity = useTransform(zoom, (z) => clamp((z - 0.45) / 0.45))
 
     useMotionValueEvent(scrolled, 'change', (s) => {
         const { stops, travel } = geometry.current
