@@ -737,9 +737,10 @@ html.has-cursor :is(input, textarea, select, [contenteditable]) {
 .project-entry-link:focus-visible, .project-gallery-buttons button:focus-visible { outline: 2px solid #ffd9b8; outline-offset: 6px; }
 /* Pinned journey: vertical scroll drives the row sideways, then zooms out to contact. */
 .projects-track { position: relative; scroll-margin-top: 0; }
-/* One gutter for heading, cards and controls: the 72rem column's left edge. */
+/* One gutter for heading, cards and controls: the 72rem column's left edge.
+   The stage outline sits outside its box, so the pin clips it until the zoom shrinks the stage. */
 .projects-pin { --gallery-gutter: max(2rem, calc((100vw - 72rem) / 2 + 2rem)); position: sticky; top: 0; height: 100svh; overflow: clip; }
-.projects-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: safe center; padding-top: clamp(4.5rem, 9svh, 6.5rem); overflow: clip; background: #13111d; border: 1px solid rgb(255 217 184 / .1); transform-origin: 50% 50%; will-change: transform, opacity; }
+.projects-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: safe center; padding-top: clamp(4.5rem, 9svh, 6.5rem); overflow: clip; background: #13111d; outline: 1px solid rgb(255 217 184 / .14); transform-origin: 50% 50%; will-change: transform, opacity; }
 .projects-stage .project-section-heading { width: 100%; max-width: none; padding-inline: var(--gallery-gutter); }
 .projects-stage .project-gallery-controls { max-width: none; }
 .projects-heading { margin-bottom: clamp(1rem, 3svh, 2.5rem) !important; }
