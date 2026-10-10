@@ -16,27 +16,19 @@ export const projects = [
         highlights: ['VAPI', 'GeminiAPI', 'ReactFlow']
     },
     {
-        year: '2025',
+        year: '2026',
         organization: 'Personal Project',
-        title: '1nsight',
-        description: 'AI-powered volleyball analytics platform helping athletes track progress and receive tailored recommendations.',
-        githubUrl: 'https://github.com/Krem1TS47/1nsight',
-        highlights: ['shadcn', 'DyanmoDB', 'Supabase storage']
+        title: 'Chiron',
+        description: 'NBA Fantasy analytics platform combining shot-chart computer vision features, machine learning simulations, and Power BI dashboards.',
+        githubUrl: 'https://github.com/Krem1TS47/Chiron',
+        highlights: ['OpenCV', 'XGBoost', 'FastAPI']
     },
     {
-        year: '2025',
-        title: 'Quizzio',
-        organization: 'BCS Hacks 2025',
-        description: 'Web application that gamifies student learning through quizzes and completion progress.',
-        githubUrl: 'https://github.com/Kem1TS47/Quizio',
-        highlights: ['React+TailwindCSS', 'Socket.io']
-    },
-    {
-        year: '2024',
-        title: 'VBStat210',
-        organization: 'University of British Columbia',
-        description: 'Statistics tracker for volleyball coaches to visualize team performance and players to track their progress.',
-        githubUrl: 'https://github.com/Krem1TS47/VBStat210',
-        highlights: ['Java', 'JSON', 'java.awt']
+        year: '2026',
+        organization: 'Personal Project',
+        title: 'Odos',
+        description: 'Local job application assistant leveraging Gemini Computer Use and Playwright to automate form navigation and completion with human-in-the-loop review.',
+        githubUrl: 'https://github.com/Krem1TS47/Odos',
+        highlights: ['Gemini Computer Use', 'Playwright', 'Python']
     }
 ]

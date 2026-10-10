@@ -1,10 +1,11 @@
 import OrbitalPlanet from './OrbitalPlanet'
+import { projects } from '../data/projects'
 
 const scenes = [
     { tone: 'coral', label: 'Cloud intelligence', name: 'cloud' },
     { tone: 'gold', label: 'Connected conversations', name: 'graph' },
     { tone: 'moon', label: 'Athletic intelligence', name: 'flight' },
-    { tone: 'violet', label: 'Learning in motion', name: 'quiz' },
+    { tone: 'violet', label: 'Autonomous workflows', name: 'quiz' },
     { tone: 'coral', label: 'A clearer view of performance', name: 'stats' },
 ]
 
@@ -87,7 +88,7 @@ const ProjectIllustration = ({ index }) => {
                 <path d="M28 31 h11 M33.5 25.5 v11 M442 289 h10 M447 284 v10" />
             </svg>
             <span className="project-world-label label">{scene.label}</span>
-            <span className="project-world-coordinate">{String(index + 1).padStart(2, '0')} / 05</span>
+            <span className="project-world-coordinate">{String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span>
         </div>
     )
 }
