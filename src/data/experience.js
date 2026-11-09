@@ -16,7 +16,7 @@ export const experiences = [
         roles: [
             {
                 title: 'Data Analytics Intern',
-                period: 'July 2026 – Present',
+                period: 'July 2026 – August 2026',
                 description: 'Cool Plate R&D Team. Prepared engineering datasets and evaluated predictive models for cooling-system performance. Tools: Python, Pandas, NumPy, sci-kit learn, tree/regression/KNN models.',
             },
             {
